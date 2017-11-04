@@ -6,7 +6,7 @@
     /**
      * Initialize the square.
      */
-    constructor() {
+    constructor(color = [1.0, 1.0, 1.0, 1.0]) {
       super();
 
       this.vertices = [
@@ -19,15 +19,10 @@
         -0.5,   0.5, 0
       ];
 
-      this.vertexColors = [
-        1.0, 0.0, 0.0, 1.0,
-        0.0, 1.0, 0.0, 1.0,
-        0.0, 0.0, 1.0, 1.0,
-
-        0.0, 0.0, 1.0, 1.0,
-        0.0, 1.0, 0.0, 1.0,
-        1.0, 0.0, 0.0, 1.0,
-      ];
+      // Color is duplicated 6 times and flattened.
+      this.vertexColors = Array
+        .from({length: 6}, () => color)
+        .reduce((prev, cur) => cur.concat(prev));
 
       this.location = vec3.fromValues(0, 0, 0);
     }

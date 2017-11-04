@@ -39,8 +39,8 @@
 
   // Create the world.
   const world  = new bsy.World();
-  const square = new bsy.Square();
-  square.setLocation(vec3.fromValues(0, 0, -6));
+  const square = new bsy.Square([1.0, 0.0, 1.0, 1.0])
+    .setLocation(vec3.fromValues(0, 0, -6));
 
   world.addWorldObject('square1', square);
 
