@@ -10,10 +10,13 @@
       super(gl, square, program);
 
       this.vertBuffer    = buffMgr.fillNewBuffer(gl, square.getVertices());
+      this.colorBuffer   = buffMgr.fillNewBuffer(gl, square.getVertexColors());
+
       this.modelLoc      = gl.getUniformLocation(program, 'uModelMatrix');
       this.viewLoc       = gl.getUniformLocation(program, 'uViewMatrix');
       this.projectionLoc = gl.getUniformLocation(program, 'uProjectionMatrix');
       this.vertexLoc     = gl.getAttribLocation(program,  'aVertexPosition');
+      this.colorLoc      = gl.getAttribLocation(program,  'aVertexColor');
     }
 
     /**
@@ -45,9 +48,7 @@
 
       const modelMatrix = mat4.create();
 
-      mat4.translate(modelMatrix,     // destination matrix
-                     modelMatrix,     // matrix to translate
-                     [-0.0, 0.0, -6.0]);  // amount to translate
+      mat4.translate(modelMatrix, modelMatrix, this.getWorldObject().getLocation());
       this.setModel(modelMatrix);
 
       {
@@ -64,8 +65,24 @@
           normalize,
           stride,
           offset);
-        gl.enableVertexAttribArray(
-            this.vertexLoc);
+        gl.enableVertexAttribArray(this.vertexLoc);
+      }
+
+      {
+        const numComponents = 4;
+        const type = gl.FLOAT;
+        const normalize = false;
+        const stride = 0;
+        const offset = 0;
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
+        gl.vertexAttribPointer(
+          this.colorLoc,
+          numComponents,
+          type,
+          normalize,
+          stride,
+          offset);
+        gl.enableVertexAttribArray(this.colorLoc);
       }
 
       // Set the shader uniforms
