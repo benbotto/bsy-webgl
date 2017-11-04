@@ -23,8 +23,6 @@
       this.vertexColors = Array
         .from({length: 6}, () => color)
         .reduce((prev, cur) => cur.concat(prev));
-
-      this.location = vec3.fromValues(0, 0, 0);
     }
 
     /**
@@ -39,21 +37,6 @@
      */
     getVertexColors() {
       return this.vertexColors;
-    }
-
-    /**
-     * Get the square's location.
-     */
-    getLocation() {
-      return this.location;
-    }
-
-    /**
-     * Set the square's location.
-     */
-    setLocation(loc) {
-      this.location = loc;
-      return this;
     }
   }
 
