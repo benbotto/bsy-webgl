@@ -1,80 +1,106 @@
 (function(bsy) {
   'use strict';
 
-  /** Handles rendering the world. */
+  /** Base class for all renderers (things that draw objects). */
   class Renderer {
     /**
      * Initialize the Renderer.
      */
-    constructor(gl, world) {
-      this.gl     = gl;
-      this.world  = world;
-      this.fov    = 60 * Math.PI / 180;
-      this.zNear  = 0.1;
-      this.zFar   = 1000.0;
-
-      // TODO: This needs to be changed on window resize, and the projection
-      // needs to be adjusted accordingly.
-      this.aspect     = null;
-      this.projection = null;
-      this.updateViewSize();
-
-      // Rendering times.
-      this.startTime  = null;
-      this.lastTime   = null;
-    }
-
-    /**
-     * Compute (or recompute) the aspect ratio and projection.
-     */
-    updateViewSize() {
-      // New aspect ratio.
-      this.aspect = this.gl.canvas.clientWidth / this.gl.canvas.clientHeight;
-
-      // New projection using that aspect ratio.
+    constructor(ctx, worldObj, program) {
+      this.ctx        = ctx;
+      this.worldObj   = worldObj;
+      this.program    = program;
+      this.renderers  = [];
       this.projection = mat4.create();
-      mat4.perspective(this.projection, this.fov, this.aspect, this.zNear, this.zFar);
+      this.view       = mat4.create();
     }
 
     /**
-     * Start the rendering.
+     * Get the WorldObject that this renderer renders.
      */
-    start() {
-      // Clear to black.
-      this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    getWorldObject() {
+      return this.worldObj;
+    }
 
-      // Clear everything.
-      this.gl.clearDepth(1.0);
+    /**
+     * Get the rendering context.
+     */
+    getContext() {
+      return this.ctx;
+    }
 
-      // Enable depth testing, and ensure that near things obscure far.
-      this.gl.enable(this.gl.DEPTH_TEST);
-      this.gl.depthFunc(this.gl.LEQUAL);
+    /**
+     * Get the shader program that this renderer should use.
+     */
+    getProgram() {
+      return this.program;
+    }
 
-      // Start the rendering.
-      this.startTime = new Date();
-      this.lastTime  = new Date();
-      window.requestAnimationFrame(() => this.render());
+    /**
+     * Use this renderer's program.
+     */
+    useProgram() {
+      this.ctx.useProgram(this.getProgram());
+    }
+
+    /**
+     * Add a renderer.  This renderer's view and projection matrices get
+     * passed down to it.
+     */
+    addRenderer(renderer) {
+      this.renderers.push(renderer);
+      renderer.setProjection(this.projection);
+      renderer.setView(this.view);
+      
+      return this;
+    }
+
+    /**
+     * Get the renderers.
+     */
+    getRenderers() {
+      return this.renderers;
+    }
+
+    /**
+     * Set the projection matrix for this renderer and all child renderers.
+     */
+    setProjection(projection) {
+      this.projection = projection;
+      this.renderers.forEach(r => r.setProjection(projection));
 
       return this;
     }
 
     /**
-     * Render the world.
+     * Get the projection matrix.
      */
-    render() {
-      // Time delta is needed on each render so that object can be moved
-      // correctly despite the speed of the device.
-      let curTime     = new Date();
-      let timeDeltaMS = curTime.getTime() - this.lastTime.getTime();
-      this.lastTime   = curTime;
+    getProjection() {
+      return this.projection;
+    }
 
-      // Clear the canvas.
-      this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+    /**
+     * Set the view matrix for this renderer and all child renderers.
+     */
+    setView(view) {
+      this.view = view;
+      this.renderers.forEach(r => r.setView(view));
 
-      // Render the world.
-      this.world.render(this.gl, timeDeltaMS);
+      return this;
+    }
 
-      window.requestAnimationFrame(() => this.render());
+    /**
+     * Get the view matrix.
+     */
+    getView() {
+      return this.view;
+    }
+
+    /**
+     * Do the rendering.
+     */
+    render(gl, timeDeltaMS, trans) {
+      throw new Error('render() not implemented.');
     }
   }
 
