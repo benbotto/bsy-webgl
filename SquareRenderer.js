@@ -46,11 +46,6 @@
     render(gl, timeDeltaMS, trans) {
       this.useProgram();
 
-      const modelMatrix = mat4.create();
-
-      mat4.translate(modelMatrix, modelMatrix, this.getWorldObject().getLocation());
-      this.setModel(modelMatrix);
-
       {
         const numComponents = 3;
         const type = gl.FLOAT;
@@ -85,7 +80,12 @@
         gl.enableVertexAttribArray(this.colorLoc);
       }
 
-      // Set the shader uniforms
+      // The model matrix is this object's transform and the parent's.
+      const modelMatrix = mat4.create();
+      mat4.multiply(modelMatrix, trans, this.getWorldObject().getTransform());
+      this.setModel(modelMatrix);
+
+      // Set the MVP in the shader.
       this.writeProjection();
       this.writeView();
       this.writeModel();
