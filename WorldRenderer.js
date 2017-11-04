@@ -34,6 +34,22 @@
     }
 
     /**
+     * Get this World's transformation matrix.
+     */
+    getTransform() {
+      return this.transform;
+    }
+
+    /**
+     * Set this World's transformation matrix.
+     */
+    setTransform(trans) {
+      this.transform = trans;
+
+      return this;
+    }
+
+    /**
      * Compute (or recompute) the aspect ratio and projection.
      */
     updateViewSize() {
@@ -49,17 +65,21 @@
     }
 
     /**
+     * Clear the canvas.
+     */
+    clear() {
+      const gl = this.getContext();
+
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    }
+
+    /**
      * Render the world.
      */
     render(gl, timeDeltaMS) {
-      // Clear the canvas.
-      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-      // Use the world's program.
+      this.clear();
       this.useProgram();
-
-      // Render the world.
-      this.renderers.forEach(r => r.render(gl, timeDeltaMS, this.transform));
+      this.renderers.forEach(r => r.render(gl, timeDeltaMS, this.getTransform()));
     }
   }
 
