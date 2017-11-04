@@ -1,4 +1,4 @@
-(function(global) {
+(function(bsy) {
   'use strict';
 
   /** Base class for drawable world objects. */
@@ -42,7 +42,7 @@
      * Get the BufferMgr instance.
      */
     getBufferMgr() {
-      return new global.BufferMgr();
+      return new bsy.BufferMgr();
     }
 
     /**
@@ -53,6 +53,6 @@
     }
   }
 
-  global.WorldObject = WorldObject;
-})(window);
+  bsy.WorldObject = WorldObject;
+})(window.bsy);
 

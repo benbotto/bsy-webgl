@@ -1,4 +1,4 @@
-(function(global) {
+(function(bsy) {
   'use strict';
 
   const canvas = document.getElementById('easel');
@@ -24,15 +24,15 @@
   `;
 
   // Compile and link the vertix and fragment shaders.
-  const compiler = new global.Compiler();
-  const linker   = new global.Linker();
+  const compiler = new bsy.Compiler();
+  const linker   = new bsy.Linker();
   const vShader  = compiler.compile(gl, vsSource, gl.VERTEX_SHADER);
   const fShader  = compiler.compile(gl, fsSource, gl.FRAGMENT_SHADER);
   const program  = linker.link(gl, vShader, fShader);
 
   // Create a buffer for drawing.
   // TODO: This should be done in a Square class.
-  const bufMgr   = new global.BufferMgr();
+  const bufMgr   = new bsy.BufferMgr();
   const buffer   = bufMgr.fillNewBuffer(gl, [
     1.0,  1.0,
     -1.0, 1.0,
@@ -41,7 +41,7 @@
   ]);
 
   // The main world renderer.
-  const renderer = new global.Renderer(gl);
+  const renderer = new bsy.Renderer(gl);
   //renderer.start();
 
   // EVERYTHING BELOW HERE NEEDS REFACTORING.
@@ -146,5 +146,5 @@
     }
   }
 
-})(window);
+})(window.bsy);
 

@@ -1,4 +1,4 @@
-(function(global) {
+(function(bsy) {
   'use strict';
 
   class Linker {
@@ -18,6 +18,6 @@
     }
   }
 
-  global.Linker = Linker;
-})(window);
+  bsy.Linker = Linker;
+})(window.bsy);
 

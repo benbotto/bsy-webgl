@@ -1,8 +1,8 @@
-(function(global) {
+(function(bsy) {
   'use strict';
 
   /** A simple square. */
-  class Square extends global.WorldObject {
+  class Square extends bsy.WorldObject {
     /**
      * Initialize the square.
      */
@@ -43,6 +43,6 @@
     }
   }
 
-  global.Square = Square;
-})(window);
+  bsy.Square = Square;
+})(window.bsy);
 

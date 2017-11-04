@@ -1,4 +1,4 @@
-(function(global) {
+(function(bsy) {
   'use strict';
 
   /** Handles rendering the world. */
@@ -78,6 +78,6 @@
     }
   }
 
-  global.Renderer = Renderer;
-})(window);
+  bsy.Renderer = Renderer;
+})(window.bsy);
 

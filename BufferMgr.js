@@ -1,4 +1,4 @@
-(function(global) {
+(function(bsy) {
   'use strict';
 
   class BufferMgr {
@@ -19,6 +19,6 @@
     }
   }
 
-  global.BufferMgr = BufferMgr;
-})(window);
+  bsy.BufferMgr = BufferMgr;
+})(window.bsy);
 

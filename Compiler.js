@@ -1,4 +1,4 @@
-(function(global) {
+(function(bsy) {
   'use strict';
 
   class Compiler {
@@ -20,6 +20,6 @@
     }
   }
 
-  global.Compiler = Compiler;
-})(window);
+  bsy.Compiler = Compiler;
+})(window.bsy);
 

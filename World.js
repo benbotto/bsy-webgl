@@ -1,4 +1,4 @@
-(function(global) {
+(function(bsy) {
   'use strict';
 
   /** Holds an array of WorldObjects. */
@@ -46,6 +46,6 @@
     }
   }
 
-  global.World = World;
-})(window);
+  bsy.World = World;
+})(window.bsy);
 

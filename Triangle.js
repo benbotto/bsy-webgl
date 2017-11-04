@@ -1,4 +1,4 @@
-(function(global) {
+(function(bsy) {
   'use strict';
 
   /** A simple triangle. */
@@ -17,6 +17,6 @@
     }
   }
 
-  global.Triangle = Triangle;
-})(window);
+  bsy.Triangle = Triangle;
+})(window.bsy);
 

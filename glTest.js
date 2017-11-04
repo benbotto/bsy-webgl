@@ -1,4 +1,4 @@
-(function(global) {
+(function(bsy) {
   'use strict';
 
   const canvas = document.getElementById('easel');
@@ -24,19 +24,19 @@
   `;
 
   // Compile and link the vertix and fragment shaders.
-  const compiler = new global.Compiler();
-  const linker   = new global.Linker();
+  const compiler = new bsy.Compiler();
+  const linker   = new bsy.Linker();
   const vShader  = compiler.compile(gl, vsSource, gl.VERTEX_SHADER);
   const fShader  = compiler.compile(gl, fsSource, gl.FRAGMENT_SHADER);
   const program  = linker.link(gl, vShader, fShader);
 
   // Create the world.
-  const world = new World();
-  world.addWorldObject('square1', new Square(gl, program));
+  const world = new bsy.World();
+  world.addWorldObject('square1', new bsy.Square(gl, program));
 
   // Create a buffer for drawing.
   // TODO: This should be done in a Square class.
-  const bufMgr   = new global.BufferMgr();
+  const bufMgr   = new bsy.BufferMgr();
   const buffer   = bufMgr.fillNewBuffer(gl, [
     -0.5,   0.5, 0,
      0.5,   0.5, 0,
@@ -52,7 +52,7 @@
   // program.  Since the projection matrix varies from program to program, what
   // sets the projection?  Maybe there should be a ProgramMgr instance that has
   // the "active" program?
-  const renderer = new global.Renderer(gl, world);
+  const renderer = new bsy.Renderer(gl, world);
   renderer.start();
 
   // EVERYTHING BELOW HERE NEEDS REFACTORING.
@@ -157,5 +157,5 @@
     }
   }
 
-})(window);
+})(window.bsy);
 
