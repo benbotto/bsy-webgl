@@ -1,55 +1,39 @@
 (function(bsy) {
   'use strict';
 
-  /** Base class for drawable world objects. */
+  /** Base class for objects that are renderable. */
   class WorldObject {
     /**
-     * Initialize the WorldObject.
+     * Initialize the world object.
      */
-    constructor(gl) {
-      this.vertBuffer = this.fillVertexBuffer(gl);
+    constructor() {
+      this.worldObjects = new Map();
     }
 
     /**
-     * Get the vertices.
+     * Add a world object.
      */
-    getVertices() {
-      throw new Error('getVertices() not implemented.');
+    addWorldObject(name, wo) {
+      if (this.worldObjects.has(name))
+        throw new Error(`World object ${name} already exists.`);
+
+      this.worldObjects.set(name, wo);
+      return this;
     }
 
     /**
-     * Get the program.
+     * Get a world object by name.
      */
-    getProgram() {
-      throw new Error('getProgram() not implemented.');
+    getWorldObject(name) {
+      return this.worldObjects.get(name);
     }
 
     /**
-     * Fill a new buffer with this object's vertices.
+     * Iterate over the world objects.
      */
-    fillVertexBuffer(gl) {
-      this.getBufferMgr().fillNewBuffer(gl, this.getVertices());
-    }
-
-    /**
-     * Get this object's vertex buffer.
-     */
-    getVertexBuffer() {
-      return this.vertBuffer;
-    }
-
-    /**
-     * Get the BufferMgr instance.
-     */
-    getBufferMgr() {
-      return new bsy.BufferMgr();
-    }
-
-    /**
-     * Draw the WorldObject.
-     */
-    render(gl, elapsed, mat) {
-      throw new Error('render() not implemented.');
+    *[Symbol.iterator]() {
+      for (let [name, wo] of this.worldObjects)
+        yield wo;
     }
   }
 
