@@ -16,6 +16,34 @@
     }
 
     /**
+     * Do the rendering.
+     */
+    render(gl, timeDeltaMS, trans) {
+      throw new Error('render() not implemented.');
+    }
+
+    /**
+     * Write the projection matrix to the program.
+     */
+    writeProjection() {
+      throw new Error('writeProjection() not implemented.');
+    }
+
+    /**
+     * Write the view matrix to the program.
+     */
+    writeView() {
+      throw new Error('writeView() not implemented.');
+    }
+
+    /**
+     * Write the model matrix to the program.
+     */
+    writeModel() {
+      throw new Error('writeModel() not implemented.');
+    }
+
+    /**
      * Get the WorldObject that this renderer renders.
      */
     getWorldObject() {
@@ -94,13 +122,6 @@
      */
     getView() {
       return this.view;
-    }
-
-    /**
-     * Do the rendering.
-     */
-    render(gl, timeDeltaMS, trans) {
-      throw new Error('render() not implemented.');
     }
   }
 
