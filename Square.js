@@ -6,10 +6,9 @@
     /**
      * Initialize the square.
      */
-    constructor(gl, program) {
-      super(gl);
+    constructor() {
+      super();
 
-      this.program  = program;
       this.vertices = [
         -0.5,   0.5, 0,
          0.5,   0.5, 0,
@@ -26,20 +25,6 @@
      */
     getVertices() {
       return this.vertices;
-    }
-
-    /**
-     * Get the program.
-     */
-    getProgram() {
-      return this.program;
-    }
-
-    /**
-     * Draw the square.
-     */
-    render(gl, elapsed, mat) {
-      console.log('rendering', arguments);
     }
   }
 
