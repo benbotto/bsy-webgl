@@ -1,0 +1,12 @@
+{
+  "name": "square-mouse-avoid-webgl",
+  "version": "1.0.0",
+  "description": "Canvas square mouse avoidance background.",
+  "main": "index.html",
+  "author": "Ben Botto",
+  "license": "MIT",
+  "dependencies": {
+    "gl-matrix": "^2.4.0",
+    "sketch-js": "^1.1.3"
+  }
+}
