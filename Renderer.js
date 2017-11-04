@@ -6,13 +6,14 @@
     /**
      * Initialize the Renderer.
      */
-    constructor(ctx, worldObj, program) {
-      this.ctx        = ctx;
+    constructor(gl, worldObj, program) {
+      this.gl         = gl;
       this.worldObj   = worldObj;
       this.program    = program;
       this.renderers  = [];
       this.projection = mat4.create();
       this.view       = mat4.create();
+      this.model      = mat4.create();
     }
 
     /**
@@ -23,24 +24,45 @@
     }
 
     /**
+     * Get the projection location attribute.
+     */
+    getProjectionLoc() {
+      throw new Error('getProjectionLoc() not implemented.');
+    }
+
+    /**
+     * Get the view location attribute.
+     */
+    getViewLoc() {
+      throw new Error('getViewLoc() not implemented.');
+    }
+
+    /**
+     * Get the model location attribute.
+     */
+    getModelLoc() {
+      throw new Error('getModelLoc() not implemented.');
+    }
+
+    /**
      * Write the projection matrix to the program.
      */
     writeProjection() {
-      throw new Error('writeProjection() not implemented.');
+      this.getContext().uniformMatrix4fv(this.getProjectionLoc(), false, this.getProjection());
     }
 
     /**
      * Write the view matrix to the program.
      */
     writeView() {
-      throw new Error('writeView() not implemented.');
+      this.getContext().uniformMatrix4fv(this.getViewLoc(), false, this.getView());
     }
 
     /**
      * Write the model matrix to the program.
      */
     writeModel() {
-      throw new Error('writeModel() not implemented.');
+      this.getContext().uniformMatrix4fv(this.getModelLoc(), false, this.getModel());
     }
 
     /**
@@ -54,7 +76,7 @@
      * Get the rendering context.
      */
     getContext() {
-      return this.ctx;
+      return this.gl;
     }
 
     /**
@@ -68,7 +90,7 @@
      * Use this renderer's program.
      */
     useProgram() {
-      this.ctx.useProgram(this.getProgram());
+      this.getContext().useProgram(this.getProgram());
     }
 
     /**
@@ -122,6 +144,22 @@
      */
     getView() {
       return this.view;
+    }
+
+    /**
+     * Set the model matrix for this renderer.  Unlike view and projection,
+     * this does not set the model matrix for children.
+     */
+    setModel(model) {
+      this.model = model;
+      return this;
+    }
+
+    /**
+     * Get the model matrix.
+     */
+    getModel() {
+      return this.model;
     }
   }
 

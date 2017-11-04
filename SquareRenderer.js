@@ -6,38 +6,49 @@
     /**
      * Initialize the renderer.
      */
-    constructor(ctx, square, program, buffMgr = new bsy.BufferMgr()) {
-      super(ctx, square, program);
+    constructor(gl, square, program, buffMgr = new bsy.BufferMgr()) {
+      super(gl, square, program);
 
-      this.vertBuffer = buffMgr.fillNewBuffer(ctx, square.getVertices());
+      this.vertBuffer    = buffMgr.fillNewBuffer(gl, square.getVertices());
+      this.modelLoc      = gl.getUniformLocation(program, 'uModelMatrix');
+      this.viewLoc       = gl.getUniformLocation(program, 'uViewMatrix');
+      this.projectionLoc = gl.getUniformLocation(program, 'uProjectionMatrix');
+      this.vertexLoc     = gl.getAttribLocation(program,  'aVertexPosition');
+    }
+
+    /**
+     * Get the projection location attribute.
+     */
+    getProjectionLoc() {
+      return this.projectionLoc;
+    }
+
+    /**
+     * Get the view location attribute.
+     */
+    getViewLoc() {
+      return this.viewLoc;
+    }
+
+    /**
+     * Get the model location attribute.
+     */
+    getModelLoc() {
+      return this.modelLoc;
     }
 
     /**
      * Render the square.
      */
     render(gl, timeDeltaMS, trans) {
-      const program = this.getProgram();
-
       this.useProgram();
 
-      const programInfo = {
-        attribLocations: {
-          vertexPosition: gl.getAttribLocation(program, 'aVertexPosition'),
-        },
-        uniformLocations: {
-          projectionMatrix: gl.getUniformLocation(program, 'uProjectionMatrix'),
-          modelViewMatrix: gl.getUniformLocation(program, 'uModelViewMatrix'),
-        },
-      };
+      const modelMatrix = mat4.create();
 
-      const modelViewMatrix = mat4.create();
-
-      // Now move the drawing position a bit to where we want to
-      // start drawing the square.
-
-      mat4.translate(modelViewMatrix,     // destination matrix
-                     modelViewMatrix,     // matrix to translate
+      mat4.translate(modelMatrix,     // destination matrix
+                     modelMatrix,     // matrix to translate
                      [-0.0, 0.0, -6.0]);  // amount to translate
+      this.setModel(modelMatrix);
 
       {
         const numComponents = 3;
@@ -47,26 +58,20 @@
         const offset = 0;
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vertBuffer);
         gl.vertexAttribPointer(
-          programInfo.attribLocations.vertexPosition,
+          this.vertexLoc,
           numComponents,
           type,
           normalize,
           stride,
           offset);
         gl.enableVertexAttribArray(
-            programInfo.attribLocations.vertexPosition);
+            this.vertexLoc);
       }
 
       // Set the shader uniforms
-
-      gl.uniformMatrix4fv(
-          programInfo.uniformLocations.projectionMatrix,
-          false,
-          this.getProjection());
-      gl.uniformMatrix4fv(
-          programInfo.uniformLocations.modelViewMatrix,
-          false,
-          modelViewMatrix);
+      this.writeProjection();
+      this.writeView();
+      this.writeModel();
 
       {
         const offset = 0;
