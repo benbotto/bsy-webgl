@@ -46,39 +46,15 @@
     render(gl, timeDeltaMS, trans) {
       this.useProgram();
 
-      {
-        const numComponents = 3;
-        const type = gl.FLOAT;
-        const normalize = false;
-        const stride = 0;
-        const offset = 0;
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.vertBuffer);
-        gl.vertexAttribPointer(
-          this.vertexLoc,
-          numComponents,
-          type,
-          normalize,
-          stride,
-          offset);
-        gl.enableVertexAttribArray(this.vertexLoc);
-      }
+      // Locations.
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.vertBuffer);
+      gl.vertexAttribPointer(this.vertexLoc, 3, gl.FLOAT, false, 0, 0);
+      gl.enableVertexAttribArray(this.vertexLoc);
 
-      {
-        const numComponents = 4;
-        const type = gl.FLOAT;
-        const normalize = false;
-        const stride = 0;
-        const offset = 0;
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
-        gl.vertexAttribPointer(
-          this.colorLoc,
-          numComponents,
-          type,
-          normalize,
-          stride,
-          offset);
-        gl.enableVertexAttribArray(this.colorLoc);
-      }
+      // Colors.
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
+      gl.vertexAttribPointer(this.colorLoc, 4, gl.FLOAT, false, 0, 0);
+      gl.enableVertexAttribArray(this.colorLoc);
 
       // The model matrix is this object's transform and the parent's.
       const modelMatrix = mat4.create();
@@ -90,11 +66,12 @@
       this.writeView();
       this.writeModel();
 
-      {
-        const offset = 0;
-        const vertexCount = 6;
-        gl.drawArrays(gl.TRIANGLES, offset, vertexCount);
-      }
+      // Draw the vertices.
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+      // Cleanup.
+      gl.disableVertexAttribArray(this.vertexLoc);
+      gl.disableVertexAttribArray(this.colorLoc);
     }
   }
 
