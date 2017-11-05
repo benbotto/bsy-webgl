@@ -10,7 +10,9 @@
       super();
 
       this.material      = material;
-      this.vertexNormals = Array.from({length: 6}, () => vec3.fromValues(0.0, 0.0, 1.0));
+      this.vertexNormals = Array
+        .from({length: 6}, () => [0.0, 0.0, 1.0])
+        .reduce((prev, cur) => prev.concat(cur));
     }
 
     /**
