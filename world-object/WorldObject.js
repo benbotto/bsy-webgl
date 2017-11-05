@@ -26,6 +26,20 @@
     }
 
     /**
+     * Get the normals.
+     */
+    getVertexNormals() {
+      throw new Error('getVertexNormals() not implemented.');
+    }
+
+    /**
+     * Get the material.
+     */
+    getMaterial() {
+      throw new Error('getMaterial() not implemented.');
+    }
+
+    /**
      * Add a world object.
      */
     addWorldObject(name, wo) {
