@@ -18,6 +18,7 @@
       this.modelLoc        = gl.getUniformLocation(program, 'uModelMatrix');
       this.viewLoc         = gl.getUniformLocation(program, 'uViewMatrix');
       this.projectionLoc   = gl.getUniformLocation(program, 'uProjectionMatrix');
+      this.normalTransLoc  = gl.getUniformLocation(program, 'uNormalTrans');
 
       this.vertexLoc       = gl.getAttribLocation(program,  'aVertexPosition');
       this.vertexNormLoc   = gl.getAttribLocation(program,  'aVertexNormal');
@@ -62,6 +63,27 @@
     }
 
     /**
+     * Get the normal trans location.
+     */
+    getNormalTransLoc() {
+      return this.normalTransLoc;
+    }
+
+    /**
+     * Write the normal transformation matrix, which is the transposed inverse
+     * of model * view.
+     */
+    writeNormalTrans() {
+      const normalTrans = mat4.create();
+
+      mat4.transpose(normalTrans,
+        mat4.invert(normalTrans,
+          mat4.multiply(normalTrans, this.getView(), this.getModel())));
+
+      this.getContext().uniformMatrix4fv(this.getNormalTransLoc(), false, normalTrans);
+    }
+
+    /**
      * Render the worldObj.
      */
     render(gl, timeDeltaMS, trans) {
@@ -73,9 +95,9 @@
       gl.enableVertexAttribArray(this.vertexLoc);
 
       // Normals.
-      //gl.bindBuffer(gl.ARRAY_BUFFER, this.vertNormBuffer);
-      //gl.vertexAttribPointer(this.vertexNormLoc, 3, gl.FLOAT, false, 0, 0);
-      //gl.enableVertexAttribArray(this.vertexNormLoc);
+      gl.bindBuffer(gl.ARRAY_BUFFER, this.vertNormBuffer);
+      gl.vertexAttribPointer(this.vertexNormLoc, 3, gl.FLOAT, false, 0, 0);
+      gl.enableVertexAttribArray(this.vertexNormLoc);
 
       // The model matrix is this object's transform and the parent's.
       const modelMatrix = mat4.create();
@@ -89,6 +111,10 @@
 
       // Write the material.
       this.writeMaterial();
+
+      // Write the normal transformation, which is the transposed inverse of
+      // model * view.
+      this.writeNormalTrans(modelMatrix);
 
       // Draw the vertices.  Each vertex is a vec3, hence the divide-by-3.
       gl.drawArrays(gl.TRIANGLES, 0, this.getWorldObject().getVertices().length / 3);
