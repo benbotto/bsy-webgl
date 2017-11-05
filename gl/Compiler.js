@@ -5,8 +5,14 @@
     /**
      * Compile the shader against the context gl.
      */
-    compile(gl, source, type) {
+    compile(gl, type, ...sources) {
       const shader = gl.createShader(type);
+
+      // Concatenate the sources together.
+      const source = sources
+        .reduce(
+          (prev, cur) => prev += '\n' + cur,
+          '');
 
       gl.shaderSource(shader, source);
       gl.compileShader(shader);

@@ -7,8 +7,8 @@
   // Compile and link the vertix and fragment shaders.
   const compiler = new bsy.Compiler();
   const linker   = new bsy.Linker();
-  const vShader  = compiler.compile(gl, bsy.identityVert, gl.VERTEX_SHADER);
-  const fShader  = compiler.compile(gl, bsy.identityFrag, gl.FRAGMENT_SHADER);
+  const vShader  = compiler.compile(gl, gl.VERTEX_SHADER, bsy.identityVert);
+  const fShader  = compiler.compile(gl, gl.FRAGMENT_SHADER, bsy.identityFrag);
   const program  = linker.link(gl, vShader, fShader);
 
   // Create the world.
