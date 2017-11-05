@@ -9,7 +9,7 @@
     constructor(material) {
       super();
 
-      this.material = material;
+      this.setMaterial(material);
     }
 
     /**
@@ -17,12 +17,33 @@
      */
     _createCubeFaces() {
       // The cube is made up of 6 squares.
-      this.addWorldObject('up',    new bsy.MaterialSquare(this.material));
-      this.addWorldObject('down',  new bsy.MaterialSquare(this.material));
-      this.addWorldObject('right', new bsy.MaterialSquare(this.material));
-      this.addWorldObject('left',  new bsy.MaterialSquare(this.material));
-      this.addWorldObject('front', new bsy.MaterialSquare(this.material));
-      this.addWorldObject('back',  new bsy.MaterialSquare(this.material));
+      this.addWorldObject('up',    new bsy.MaterialSquare());
+      this.addWorldObject('down',  new bsy.MaterialSquare());
+      this.addWorldObject('right', new bsy.MaterialSquare());
+      this.addWorldObject('left',  new bsy.MaterialSquare());
+      this.addWorldObject('front', new bsy.MaterialSquare());
+      this.addWorldObject('back',  new bsy.MaterialSquare());
+    }
+
+    /**
+     * Set the material.
+     */
+    setMaterial(material) {
+      this.material = material;
+
+      this.getWorldObject('up').setMaterial(material);
+      this.getWorldObject('down').setMaterial(material);
+      this.getWorldObject('right').setMaterial(material);
+      this.getWorldObject('left').setMaterial(material);
+      this.getWorldObject('front').setMaterial(material);
+      this.getWorldObject('back').setMaterial(material);
+    }
+
+    /**
+     * Get the material.
+     */
+    getMaterial() {
+      return this.material;
     }
   }
 
