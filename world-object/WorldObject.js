@@ -12,6 +12,20 @@
     }
 
     /**
+     * Get the vertices.
+     */
+    getVertices() {
+      throw new Error('getVertices() not implemented.');
+    }
+
+    /**
+     * Get the vertex colors.
+     */
+    getVertexColors() {
+      throw new Error('getVertexColors() not implemented.');
+    }
+
+    /**
      * Add a world object.
      */
     addWorldObject(name, wo) {

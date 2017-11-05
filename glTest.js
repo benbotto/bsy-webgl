@@ -13,8 +13,8 @@
 
   // Create the world.
   const world  = new bsy.World();
-  const square = new bsy.Square([1.0, 0.0, 1.0, 1.0])
-  const cube   = new bsy.Cube([
+  const square = new bsy.ColorSquare([1.0, 0.0, 1.0, 1.0])
+  const cube   = new bsy.ColorCube([
     [0.0, 0.0, 1.0, 1.0],
     [0.0, 1.0, 0.0, 1.0],
     [0.0, 1.0, 1.0, 1.0],
@@ -34,8 +34,8 @@
 
   // Create the renderers.
   const worldRenderer = new bsy.WorldRenderer(gl, world, program)
-    .addRenderer(new bsy.SquareRenderer(gl, square, program))
-    .addRenderer(new bsy.CubeRenderer(gl, cube, program));
+    .addRenderer(new bsy.IdentityWorldObjectRenderer(gl, square, program))
+    .addRenderer(new bsy.ColorCubeRenderer(gl, cube, program));
 
   easel.onDraw = (gl, timeDeltaMS) => {
     mat4.translate(squareTrans, squareTrans, [.001, .001, -.001]);

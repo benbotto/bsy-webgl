@@ -1,17 +1,19 @@
-// NO LONGER NEEDED __ DELETE ME
 (function(bsy) {
   'use strict';
 
-  /** Renders a Square */
-  class SquareRenderer extends bsy.Renderer {
+  /**
+   * Renderer for world objects that use the identity shader.  The must
+   * implement getVertices() and getVertexColors().
+   */
+  class IdentityWorldObjectRenderer extends bsy.Renderer {
     /**
      * Initialize the renderer.
      */
-    constructor(gl, square, program, buffMgr = new bsy.BufferMgr()) {
-      super(gl, square, program);
+    constructor(gl, worldObj, program, buffMgr = new bsy.BufferMgr()) {
+      super(gl, worldObj, program);
 
-      this.vertBuffer    = buffMgr.fillNewBuffer(gl, square.getVertices());
-      this.colorBuffer   = buffMgr.fillNewBuffer(gl, square.getVertexColors());
+      this.vertBuffer    = buffMgr.fillNewBuffer(gl, worldObj.getVertices());
+      this.colorBuffer   = buffMgr.fillNewBuffer(gl, worldObj.getVertexColors());
 
       this.modelLoc      = gl.getUniformLocation(program, 'uModelMatrix');
       this.viewLoc       = gl.getUniformLocation(program, 'uViewMatrix');
@@ -42,7 +44,7 @@
     }
 
     /**
-     * Render the square.
+     * Render the worldObj.
      */
     render(gl, timeDeltaMS, trans) {
       this.useProgram();
@@ -67,8 +69,8 @@
       this.writeView();
       this.writeModel();
 
-      // Draw the vertices.
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      // Draw the vertices.  Each vertex is a vec3, hence the divide-by-3.
+      gl.drawArrays(gl.TRIANGLES, 0, this.getWorldObject().getVertices().length / 3);
 
       // Cleanup.
       gl.disableVertexAttribArray(this.vertexLoc);
@@ -76,6 +78,6 @@
     }
   }
 
-  bsy.SquareRenderer = SquareRenderer;
+  bsy.IdentityWorldObjectRenderer = IdentityWorldObjectRenderer;
 })(window.bsy)
 
