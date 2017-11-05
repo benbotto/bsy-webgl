@@ -8,6 +8,7 @@
      */
     constructor() {
       this.worldObjects = new Map();
+      this.transform    = mat4.create();
     }
 
     /**
@@ -34,6 +35,21 @@
     *[Symbol.iterator]() {
       for (let [name, wo] of this.worldObjects)
         yield wo;
+    }
+
+    /**
+     * Get this object's transformation matrix.
+     */
+    getTransform() {
+      return this.transform;
+    }
+
+    /**
+     * 1et this object's transformation matrix.
+     */
+    setTransform(transform) {
+      this.transform = transform;
+      return this;
     }
   }
 
