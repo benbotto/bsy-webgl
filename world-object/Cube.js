@@ -24,7 +24,7 @@
       // Up: Rotated about x then translated +y.
       trans = up.getTransform();
       mat4.translate(trans, trans, [0.0, 0.5, 0.0]);
-      mat4.rotate(trans, trans, Math.PI / 2, [1.0, 0.0, 0.0]);
+      mat4.rotate(trans, trans, -Math.PI / 2, [1.0, 0.0, 0.0]);
 
       // Down: Rotated about x then translated -y.
       trans = down.getTransform();
@@ -34,7 +34,7 @@
       // Right: rotated about y then translated +x.
       trans = right.getTransform();
       mat4.translate(trans, trans, [0.5, 0.0, 0.0]);
-      mat4.rotate(trans, trans, Math.PI / 2, [0.0, 1.0, 0.0]);
+      mat4.rotate(trans, trans, -Math.PI / 2, [0.0, 1.0, 0.0]);
 
       // Left: rotated about y then translated -x.
       trans = left.getTransform();
@@ -45,9 +45,10 @@
       trans = front.getTransform();
       mat4.translate(trans, trans, [0.0, 0.0, 0.5]);
 
-      // Back: translated -z.
+      // Back: rotated about y then translated -z.
       trans = back.getTransform();
       mat4.translate(trans, trans, [0.0, 0.0, -0.5]);
+      mat4.rotate(trans, trans, Math.PI, [0.0, 1.0, 0.0]);
     }
 
     /**
