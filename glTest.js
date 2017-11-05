@@ -66,9 +66,9 @@
   // Create the world.
   const world  = new bsy.World();
   const light  = new bsy.DistanceLight(
-    vec4.fromValues(0.1, 0.1, 0.1, 1.0),
-    vec4.fromValues(0.2, 0.2, 0.2, 1.0),
-    vec4.fromValues(0.9, 0.9, 0.9, 1.0),
+    vec4.fromValues(0.2, 0.1, 0.1, 1.0),
+    vec4.fromValues(0.3, 0.2, 0.2, 1.0),
+    vec4.fromValues(0.6, 0.5, 0.5, 1.0),
     vec3.fromValues(0.0, 0.0, -1.0)
   );
   const square = new bsy.MaterialSquare(new bsy.Brass());
