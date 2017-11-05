@@ -6,7 +6,7 @@
     /**
      * Initialize the renderer.
      */
-    constructor(gl, cube, program, buffMgr = new bsy.BufferMgr()) {
+    constructor(gl, cube, program) {
       super(gl, cube, program);
 
       // A ColorCube is made up of 6 ColorSquares, and those can be rendered
