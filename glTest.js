@@ -1,7 +1,7 @@
 (function(bsy) {
   'use strict';
 
-  const easel  = new bsy.Easel(640, 480);
+  const easel  = new bsy.Easel();
   const gl     = easel.getContext();
 
   // Vertex shader.

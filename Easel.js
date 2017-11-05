@@ -11,8 +11,8 @@
      */
     constructor(width, height) {
       this.canvas        = window.document.createElement('canvas');
-      this.canvas.width  = width;
-      this.canvas.height = height;
+      this.canvas.width  = width  || window.innerWidth;
+      this.canvas.height = height || window.innerHeight;
       this.gl            = this.canvas.getContext('webgl');
       this.onDraw        = function () {};
       this.startTime     = null;
