@@ -34,12 +34,12 @@
       // Right: rotated about y then translated +x.
       trans = right.getTransform();
       mat4.translate(trans, trans, [0.5, 0.0, 0.0]);
-      mat4.rotate(trans, trans, -Math.PI / 2, [0.0, 1.0, 0.0]);
+      mat4.rotate(trans, trans, Math.PI / 2, [0.0, 1.0, 0.0]);
 
       // Left: rotated about y then translated -x.
       trans = left.getTransform();
       mat4.translate(trans, trans, [-0.5, 0.0, 0.0]);
-      mat4.rotate(trans, trans, Math.PI / 2, [0.0, 1.0, 0.0]);
+      mat4.rotate(trans, trans, -Math.PI / 2, [0.0, 1.0, 0.0]);
 
       // Front: translated +z.
       trans = front.getTransform();
