@@ -15,7 +15,31 @@
       this.numTriangleStrips = numTriangleStrips;
       this.vertices          = [];
 
-      this.buildQuarterDome(numTriangleStrips / 2);
+      // Build a single quater dome and put the result in this.vertices.
+      const qdVerts = this.buildQuarterDome(numTriangleStrips / 2);
+
+      // Build the sphere out of 8 quarter domes.  The first 4 quarter domes are
+      // rotated about the Y axis.  The second 4 are rotated about the Z axis
+      // and the Y axis.
+      const yAxis = vec3.fromValues(0.0, 1.0, 0.0);
+      const zAxis = vec3.fromValues(0.0, 0.0, 1.0);
+
+      for (let dome = 0; dome < 2; ++dome) {
+        const rotationZ = mat4.fromRotation(mat4.create(), Math.PI * dome, zAxis);
+
+        for (let i = 0; i < 4; ++i) {
+          const rotationY = mat4.fromRotation(mat4.create(), Math.PI / 2 * i, yAxis);
+
+          this.vertices.push(...qdVerts.map(v =>
+            vec3.transformMat4(vec3.create(),
+              vec3.transformMat4(vec3.create(), v, rotationZ), rotationY)));
+        }
+      }
+
+      // Flatten the verts into one big array.
+      this.vertices = this.vertices.reduce(
+        (prev, cur) => prev.concat([cur[0], cur[1], cur[2]]),
+        []);
     }
 
     /**
@@ -26,6 +50,7 @@
       const yAxis     = vec3.fromValues(0.0, 1.0, 0.0);
       const start     = vec3.fromValues(0.0, 1.0, 0.0);
       const halfPI    = Math.PI / 2;
+      const vertices  = [];
       const holdVerts = [];
 
       /* 
@@ -82,22 +107,19 @@
 
         // The vertices are pushed clockwise for vertex normal computation.
         for (let u = 0; u < numUp; ++u) {
-          this.vertices.push(holdVerts[level][u]);
-          this.vertices.push(holdVerts[level - 1][u]);
-          this.vertices.push(holdVerts[level][u + 1]);
+          vertices.push(holdVerts[level][u]);
+          vertices.push(holdVerts[level - 1][u]);
+          vertices.push(holdVerts[level][u + 1]);
         }
 
         for (let d = 0; d < numDown; ++d) {
-          this.vertices.push(holdVerts[level - 1][d]);
-          this.vertices.push(holdVerts[level - 1][d + 1]);
-          this.vertices.push(holdVerts[level][d + 1]);
+          vertices.push(holdVerts[level - 1][d]);
+          vertices.push(holdVerts[level - 1][d + 1]);
+          vertices.push(holdVerts[level][d + 1]);
         }
       }
 
-      // Flatten the verts.
-      this.vertices = this.vertices.reduce(
-        (prev, cur) => prev.concat([cur[0], cur[1], cur[2]]),
-        []);
+      return vertices;
     }
 
     /**
