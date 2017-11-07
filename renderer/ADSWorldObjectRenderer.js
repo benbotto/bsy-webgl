@@ -121,6 +121,7 @@
 
       // Cleanup.
       gl.disableVertexAttribArray(this.vertexLoc);
+      gl.disableVertexAttribArray(this.vertexNormLoc);
     }
   }
 
