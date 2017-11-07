@@ -41,13 +41,14 @@
   world.addWorldObject('matSphere', matSphere);
 
   const matCubeTrans = matCube.getTransform();
-  mat4.translate(matCubeTrans, matCubeTrans, [1.5, 0.0, -6]);
+  mat4.translate(matCubeTrans, matCubeTrans, [1.5, 0.0, -12]);
 
   const clrCubeTrans = clrCube.getTransform();
-  mat4.translate(clrCubeTrans, clrCubeTrans, [-1.5, 0.0, -6]);
+  mat4.translate(clrCubeTrans, clrCubeTrans, [-1.5, 0.0, -12]);
 
   const matSphereTrans = matSphere.getTransform();
-  mat4.translate(matSphereTrans, matSphereTrans, [0.0, 1.5, -6]);
+  const matSphereRot   = mat4.create();
+  const matSphereTlate = mat4.fromTranslation(mat4.create(), [0.0, 0.0, -24.0]);
 
   // Create the renderers.
   const worldRenderer = new bsy.WorldRenderer(gl, world, adsProgram)
@@ -64,6 +65,10 @@
     mat4.rotate(clrCubeTrans, clrCubeTrans, -Math.PI * timeDeltaMS / 3000, [1.0, 0.0, 0.0]);
     mat4.rotate(clrCubeTrans, clrCubeTrans, -Math.PI * timeDeltaMS / 4000, [0.0, 1.0, 0.0]);
     mat4.rotate(clrCubeTrans, clrCubeTrans, -Math.PI * timeDeltaMS / 5000, [0.0, 0.0, 1.0]);
+
+    //mat4.rotate(matSphereTrans, matSphereTrans, -Math.PI * timeDeltaMS / 5000, [0.0, 0.0, 1.0]);
+    mat4.rotate(matSphereRot, matSphereRot, Math.PI * timeDeltaMS / 8000, [1.0, 1.0, 0.0]);
+    mat4.multiply(matSphereTrans, matSphereRot, matSphereTlate);
 
     worldRenderer.render(gl, timeDeltaMS);
   };
