@@ -13,7 +13,7 @@
       this.transform = mat4.create();
 
       // For the projection matrix.
-      this.fov    = 60 * Math.PI / 180;
+      this.fov    = 35 * Math.PI / 180;
       this.zNear  = 0.1;
       this.zFar   = 1000.0;
 
