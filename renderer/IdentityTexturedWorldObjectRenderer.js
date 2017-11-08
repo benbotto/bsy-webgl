@@ -11,10 +11,13 @@
      * Initialize the renderer.
      */
     constructor(gl, worldObj, program,
+      textureUnit,
       buffMgr = new bsy.BufferMgr(),
       textureMgr = new bsy.TextureMgr()) {
 
       super(gl, worldObj, program);
+
+      this.textureUnit   = (textureUnit === undefined) ? gl.TEXTURE0 : textureUnit;
 
       this.vertBuffer    = buffMgr.fillNewBuffer(gl, worldObj.getVertices());
       this.texelBuffer   = buffMgr.fillNewBuffer(gl, worldObj.getTextureCoords());
@@ -66,7 +69,7 @@
       gl.enableVertexAttribArray(this.texelLoc);
 
       // Active the texture.
-      gl.activeTexture(gl.TEXTURE0);
+      gl.activeTexture(this.textureUnit);
       gl.bindTexture(gl.TEXTURE_2D, this.texture);
       gl.uniform1i(this.samplerLoc, 0);
 
