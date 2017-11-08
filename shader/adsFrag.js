@@ -26,7 +26,7 @@
       // Vertex to the light.
       L = normalize(oVertToDistLight);
 
-      // Positional light intensity.
+      // Distance light intensity.
       gl_FragColor = getIntensity(uDistLight, uMaterial, L, N, V);
     }
   `;
