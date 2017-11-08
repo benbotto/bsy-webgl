@@ -41,13 +41,13 @@
       ]);
       const matCube   = new bsy.MaterialCube(new bsy.Brass());
       const matSphere = new bsy.MaterialSphere(new bsy.Brass());
-      const texSquare = new bsy.TextureSquare(crateImg);
+      const crate     = new bsy.TextureCube(crateImg);
 
       world.addWorldObject('distLight', light);
       world.addWorldObject('clrCube',   clrCube);
       world.addWorldObject('matCube',   matCube);
       world.addWorldObject('matSphere', matSphere);
-      world.addWorldObject('crate',     texSquare);
+      world.addWorldObject('crate',     crate);
 
       const matCubeTrans = matCube.getTransform();
       mat4.translate(matCubeTrans, matCubeTrans, [1.5, 0.0, -12]);
@@ -59,8 +59,8 @@
       const matSphereRot   = mat4.create();
       const matSphereTlate = mat4.fromTranslation(mat4.create(), [0.0, 0.0, -24.0]);
 
-      const texSquareTrans = texSquare.getTransform();
-      mat4.translate(texSquareTrans, texSquareTrans, [0., -1.5, -12]);
+      const crateTrans = crate.getTransform();
+      mat4.translate(crateTrans, crateTrans, [0., -1.5, -12]);
 
       // Create the renderers.
       const worldRenderer = new bsy.WorldRenderer(gl, world, adsProgram)
@@ -68,7 +68,7 @@
         .addRenderer(new bsy.ColorCubeRenderer(gl, clrCube, idProgram))
         .addRenderer(new bsy.MaterialCubeRenderer(gl, matCube, adsProgram))
         .addRenderer(new bsy.ADSWorldObjectRenderer(gl, matSphere, adsProgram))
-        .addRenderer(new bsy.IdentityTexturedWorldObjectRenderer(gl, texSquare, idtProgram));
+        .addRenderer(new bsy.IdentityTextureCubeRenderer(gl, crate, idtProgram));
 
       easel.onDraw = (gl, timeDeltaMS) => {
         mat4.rotate(matCubeTrans, matCubeTrans, Math.PI * timeDeltaMS / 3000, [1.0, 0.0, 0.0]);
@@ -79,7 +79,10 @@
         mat4.rotate(clrCubeTrans, clrCubeTrans, -Math.PI * timeDeltaMS / 4000, [0.0, 1.0, 0.0]);
         mat4.rotate(clrCubeTrans, clrCubeTrans, -Math.PI * timeDeltaMS / 5000, [0.0, 0.0, 1.0]);
 
-        //mat4.rotate(matSphereTrans, matSphereTrans, -Math.PI * timeDeltaMS / 5000, [0.0, 0.0, 1.0]);
+        mat4.rotate(crateTrans, crateTrans, -Math.PI * timeDeltaMS / 3000, [0.0, 1.0, 0.0]);
+        mat4.rotate(crateTrans, crateTrans,  Math.PI * timeDeltaMS / 4000, [1.0, 0.0, 0.0]);
+        mat4.rotate(crateTrans, crateTrans, -Math.PI * timeDeltaMS / 4000, [0.0, 0.0, 1.0]);
+
         mat4.rotate(matSphereRot, matSphereRot, Math.PI * timeDeltaMS / 8000, [1.0, 1.0, 0.0]);
         mat4.multiply(matSphereTrans, matSphereRot, matSphereTlate);
 
