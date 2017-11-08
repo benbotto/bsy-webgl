@@ -6,7 +6,7 @@
    * world object must implement getVertices(), getTextureImage() and
    * getTextureCoords().
    */
-  class IdentityTexturedWorldObjectRenderer extends bsy.Renderer {
+  class IdentityTextureWorldObjectRenderer extends bsy.Renderer {
     /**
      * Initialize the renderer.
      */
@@ -92,6 +92,6 @@
     }
   }
 
-  bsy.IdentityTexturedWorldObjectRenderer = IdentityTexturedWorldObjectRenderer;
+  bsy.IdentityTextureWorldObjectRenderer = IdentityTextureWorldObjectRenderer;
 })(window.bsy)
 
