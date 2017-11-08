@@ -60,7 +60,9 @@
       const matSphereTlate = mat4.fromTranslation(mat4.create(), [0.0, 0.0, -24.0]);
 
       const crateTrans = crate.getTransform();
-      mat4.translate(crateTrans, crateTrans, [0., -1.5, -12]);
+      const crateTlate = mat4.fromTranslation(mat4.create, [0., -1.5, -12]);
+      const crateRot1  = quat.setAxisAngle(quat.create(), [0.0, 1.0, 0.0], 0);
+      const crateRot2  = quat.setAxisAngle(quat.create(), [0.0, 1.0, 0.0], Math.PI / 2);
 
       // Create the renderers.
       const worldRenderer = new bsy.WorldRenderer(gl, world, adsProgram)
@@ -79,9 +81,11 @@
         mat4.rotate(clrCubeTrans, clrCubeTrans, -Math.PI * timeDeltaMS / 4000, [0.0, 1.0, 0.0]);
         mat4.rotate(clrCubeTrans, clrCubeTrans, -Math.PI * timeDeltaMS / 5000, [0.0, 0.0, 1.0]);
 
-        mat4.rotate(crateTrans, crateTrans, -Math.PI * timeDeltaMS / 3000, [0.0, 1.0, 0.0]);
-        mat4.rotate(crateTrans, crateTrans,  Math.PI * timeDeltaMS / 4000, [1.0, 0.0, 0.0]);
-        mat4.rotate(crateTrans, crateTrans, -Math.PI * timeDeltaMS / 4000, [0.0, 0.0, 1.0]);
+        mat4.multiply(crateTrans, crateTlate, mat4.fromQuat(mat4.create(),
+          quat.slerp(crateRot1, crateRot1, crateRot2, 1 * timeDeltaMS / 500)));
+
+        if (Math.abs(quat.dot(crateRot1, crateRot2)) > .999)
+          quat.rotateY(crateRot2, crateRot2, Math.PI / 2);
 
         mat4.rotate(matSphereRot, matSphereRot, Math.PI * timeDeltaMS / 8000, [1.0, 1.0, 0.0]);
         mat4.multiply(matSphereTrans, matSphereRot, matSphereTlate);
