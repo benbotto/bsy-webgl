@@ -40,6 +40,20 @@
     }
 
     /**
+     * Get the texture coordinates.
+     */
+    getTextureCoords() {
+      throw new Error('getTextureCoords() not implemented.');
+    }
+
+    /**
+     * Get the texture image.
+     */
+    getTextureImage() {
+      throw new Error('getTextureImage() not implemented.');
+    }
+
+    /**
      * Add a world object.
      */
     addWorldObject(name, wo) {
