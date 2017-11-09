@@ -1,18 +1,19 @@
 (function(bsy) {
   'use strict';
 
-  /** Brass material. */
-  class Brass extends bsy.Material {
+  /** Wood material (these values are made up, and not from any
+   * scientific source). */
+  class Wood extends bsy.Material {
     /**
      * Init.
      */
     constructor() {
       super();
 
-      this.ambient   = vec4.fromValues(0.3294, 0.2235, 0.02745, 1.0);
-      this.diffuse   = vec4.fromValues(0.7804, 0.5686, 0.1137,  1.0);
-      this.specular  = vec4.fromValues(0.9922, 0.9412, 0.8078,  1.0);
-      this.shininess = 27.9;
+      this.ambient  = vec4.fromValues(0.09, 0.06, 0.05, 1.0);
+      this.diffuse  = vec4.fromValues(0.09, 0.06, 0.05, 1.0);
+      this.specular = vec4.fromValues(0.15, 0.1,  0.05, 1.0);
+      this.shininess = .9;
     }
 
     /**
@@ -44,6 +45,6 @@
     }
   }
 
-  bsy.Brass = Brass;
+  bsy.Wood = Wood;
 })(window.bsy);
 

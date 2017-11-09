@@ -1,18 +1,18 @@
 (function(bsy) {
   'use strict';
 
-  /** Brass material. */
-  class Brass extends bsy.Material {
+  /** BluePlastic material (made up values). */
+  class BluePlastic extends bsy.Material {
     /**
      * Init.
      */
     constructor() {
       super();
 
-      this.ambient   = vec4.fromValues(0.3294, 0.2235, 0.02745, 1.0);
-      this.diffuse   = vec4.fromValues(0.7804, 0.5686, 0.1137,  1.0);
-      this.specular  = vec4.fromValues(0.9922, 0.9412, 0.8078,  1.0);
-      this.shininess = 27.9;
+      this.ambient  = vec4.fromValues(0.1,  0.2,  0.4,  1.0);
+      this.diffuse  = vec4.fromValues(0.08, 0.15, 0.9,  1.0);
+      this.specular = vec4.fromValues(0.15, 0.3,  0.97, 1.0);
+      this.shininess = 97.9;
     }
 
     /**
@@ -44,6 +44,6 @@
     }
   }
 
-  bsy.Brass = Brass;
+  bsy.BluePlastic = BluePlastic;
 })(window.bsy);
 
