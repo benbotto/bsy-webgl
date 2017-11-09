@@ -4,6 +4,7 @@
   const fsSource = `
     uniform Material      uMaterial;
     uniform DistanceLight uDistLight;
+    uniform sampler2D     uSampler;
 
     // Vertex normal converted to eye space.
     varying vec3 oNormalEC;
@@ -29,11 +30,17 @@
       // Vertex to the light.
       L = normalize(oVertToDistLight);
 
-      // Distance light intensity with texture.
-      gl_FragColor = texture2D(uSampler, vTextureCoord) + getIntensity(uDistLight, uMaterial, L, N, V);
+      // Distance light intensity with texture.  The texture color mostly
+      // replaces the material's diffuse part and partly replaces the
+      // material's ambient part.
+      Material holdMat = uMaterial;
+      vec4     texClr  = texture2D(uSampler, vTextureCoord);
+      holdMat.diffuse  = mix(uMaterial.diffuse, texClr, .85);
+      holdMat.ambient  = mix(uMaterial.ambient, texClr, .25);
+      gl_FragColor     = getIntensity(uDistLight, holdMat, L, N, V);
     }
   `;
 
-  bsy.adsFrag = fsSource;
+  bsy.adsTextureFrag = fsSource;
 })(window.bsy);
 
