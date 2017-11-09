@@ -30,7 +30,7 @@
       // Create the world.
       const world  = new bsy.World();
       const light  = new bsy.DistanceLight(
-        vec4.fromValues(0.2, 0.1, 0.1, 1.0),
+        vec4.fromValues(0.6, 0.4, 0.4, 1.0),
         vec4.fromValues(0.3, 0.2, 0.2, 1.0),
         vec4.fromValues(0.6, 0.5, 0.5, 1.0),
         vec3.fromValues(0.0, 0.0, -1.0)
@@ -93,9 +93,7 @@
         mat4.rotate(clrCubeTrans, clrCubeTrans, -Math.PI * timeDeltaMS / 4000, [0.0, 1.0, 0.0]);
         mat4.rotate(clrCubeTrans, clrCubeTrans, -Math.PI * timeDeltaMS / 5000, [0.0, 0.0, 1.0]);
 
-        //mat4.rotate(litCrateTrans, litCrateTrans, -Math.PI * timeDeltaMS / 3000, [1.0, 0.0, 1.0]);
         mat4.rotate(litCrateTrans, litCrateTrans, -Math.PI * timeDeltaMS / 4000, [0.0, 1.0, 0.0]);
-        //mat4.rotate(litCrateTrans, litCrateTrans, -Math.PI * timeDeltaMS / 5000, [0.0, 0.0, 1.0]);
 
         mat4.multiply(crateTrans, crateTlate, mat4.fromQuat(mat4.create(),
           quat.slerp(crateRot1, crateRot1, crateRot2, 1 * timeDeltaMS / 500)));
@@ -108,6 +106,8 @@
 
         worldRenderer.render(gl, timeDeltaMS);
       };
+
+      easel.onresize = () => worldRenderer.updateViewSize();
 
       easel.start();
     });

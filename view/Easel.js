@@ -14,11 +14,22 @@
       this.canvas.width  = width  || window.innerWidth;
       this.canvas.height = height || window.innerHeight;
       this.gl            = this.canvas.getContext('webgl');
-      this.onDraw        = function () {};
+      this.onDraw        = function() {};
+      this.autoresize    = !width && !height;
+      this.onresize      = function() {};
       this.startTime     = null;
       this.lastTime      = null;
       
       window.document.body.appendChild(this.canvas);
+      window.onresize = e => {
+        if (this.autoresize) {
+          this.canvas.width  = window.innerWidth;
+          this.canvas.height = window.innerHeight;
+          this.getContext().viewport(0, 0, this.canvas.width, this.canvas.height);
+        }
+
+        this.onresize(e);
+      };
     }
 
     /**
