@@ -48,6 +48,6 @@
     }
   `;
 
-  bsy.adsVert = vsSource;
+  bsy.adsTextureVert = vsSource;
 })(window.bsy);
 
