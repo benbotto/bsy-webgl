@@ -1,9 +1,20 @@
 (function(bsy) {
   'use strict';
 
-  new bsy.TextureMgr()
-    .loadImage('/RTS_Crate_0.png')
-    .then(crateImg => {
+  // Load all the texutres for the scene.
+  const textureMgr = new bsy.TextureMgr();
+
+  Promise
+    .all([
+      textureMgr.loadImage('/example/RTS_Crate_0.png'),
+      textureMgr.loadImage('/example/ame_nebula/purplenebula_up.png'),
+      textureMgr.loadImage('/example/ame_nebula/purplenebula_dn.png'),
+      textureMgr.loadImage('/example/ame_nebula/purplenebula_rt.png'),
+      textureMgr.loadImage('/example/ame_nebula/purplenebula_lf.png'),
+      textureMgr.loadImage('/example/ame_nebula/purplenebula_ft.png'),
+      textureMgr.loadImage('/example/ame_nebula/purplenebula_bk.png'),
+    ])
+    .then(([crateImg, sUpImg, sDownImg, sRightImg, sLeftImg, sFrontImg, sBackImg]) => {
       const easel  = new bsy.Easel();
       const gl     = easel.getContext();
 
@@ -48,6 +59,8 @@
       const matSphere = new bsy.MaterialSphere(new bsy.BluePlastic());
       const crate     = new bsy.TextureCube(crateImg);
       const litCrate  = new bsy.TextureMaterialCube(crateImg, new bsy.Wood());
+      const skyBox    = new bsy.SkyBox(camera,
+        [sUpImg, sDownImg, sRightImg, sLeftImg, sFrontImg, sBackImg]);
 
       world.addWorldObject('distLight', light);
       world.addWorldObject('clrCube',   clrCube);
@@ -77,6 +90,7 @@
       // Create the renderers.
       // The light is rendered twice, once for each ADS prog.
       const worldRenderer = new bsy.WorldRenderer(gl, world, adsProgram)
+        .addRenderer(new bsy.SkyBoxRenderer(gl, skyBox, idtProgram))
         .addRenderer(new bsy.ADSDistanceLightRenderer(gl, light, adsProgram))
         .addRenderer(new bsy.ColorCubeRenderer(gl, clrCube, idProgram))
         .addRenderer(new bsy.MaterialCubeRenderer(gl, matCube, adsProgram))
@@ -124,7 +138,7 @@
         mat4.rotate(clrCubeTrans, clrCubeTrans, -Math.PI * timeDeltaMS / 4000, [0.0, 1.0, 0.0]);
         mat4.rotate(clrCubeTrans, clrCubeTrans, -Math.PI * timeDeltaMS / 5000, [0.0, 0.0, 1.0]);
 
-        mat4.rotate(litCrateTrans, litCrateTrans, -Math.PI * timeDeltaMS / 4000, [0.0, 1.0, 0.0]);
+        //mat4.rotate(litCrateTrans, litCrateTrans, -Math.PI * timeDeltaMS / 4000, [0.0, 1.0, 0.0]);
 
         mat4.multiply(crateTrans, crateTlate, mat4.fromQuat(mat4.create(),
           quat.slerp(crateRot1, crateRot1, crateRot2, 1 * timeDeltaMS / 500)));
