@@ -28,7 +28,8 @@
       const adstProgram = linker.link(gl, adstVShader, adstFShader);
 
       // Create the world.
-      const world  = new bsy.World();
+      const camera = new bsy.SixDoFCamera();
+      const world  = new bsy.World(camera);
       const light  = new bsy.DistanceLight(
         vec4.fromValues(0.6, 0.4, 0.4, 1.0),
         vec4.fromValues(0.3, 0.2, 0.2, 1.0),
@@ -84,7 +85,33 @@
         .addRenderer(new bsy.ADSDistanceLightRenderer(gl, light, adstProgram))
         .addRenderer(new bsy.TextureMaterialCubeRenderer(gl, litCrate, adstProgram));
 
+      // Handles key state.
+      const keyMgr          = new bsy.KeyMgr();
+      const moveUnitsPerSec = 5;
+      const rotUnitsPerSec  = Math.PI / 10;
+
       easel.onDraw = (gl, timeDeltaMS) => {
+        // Check if the camera should be moved.
+        const moveDelta = moveUnitsPerSec * timeDeltaMS / 1000;
+        const rotDelta  = rotUnitsPerSec  * timeDeltaMS / 1000;
+
+        if (keyMgr.isKeyDown('KeyW'))
+          camera.moveForward(moveDelta);
+        if (keyMgr.isKeyDown('KeyS'))
+          camera.moveBackward(moveDelta);
+        if (keyMgr.isKeyDown('KeyD'))
+          camera.strafeRight(moveDelta);
+        if (keyMgr.isKeyDown('KeyA'))
+          camera.strafeLeft(moveDelta);
+        if (keyMgr.isKeyDown('ArrowUp'))
+          camera.pitchUp(rotDelta);
+        if (keyMgr.isKeyDown('ArrowDown'))
+          camera.pitchDown(rotDelta);
+        if (keyMgr.isKeyDown('ArrowRight'))
+          camera.yawRight(rotDelta);
+        if (keyMgr.isKeyDown('ArrowLeft'))
+          camera.yawLeft(rotDelta);
+
         mat4.rotate(matCubeTrans, matCubeTrans, Math.PI * timeDeltaMS / 3000, [1.0, 0.0, 0.0]);
         mat4.rotate(matCubeTrans, matCubeTrans, Math.PI * timeDeltaMS / 4000, [0.0, 1.0, 0.0]);
         mat4.rotate(matCubeTrans, matCubeTrans, Math.PI * timeDeltaMS / 5000, [0.0, 0.0, 1.0]);
@@ -107,8 +134,37 @@
         worldRenderer.render(gl, timeDeltaMS);
       };
 
+      // Update the canvas size with the window size is changed.
       easel.onresize = () => worldRenderer.updateViewSize();
 
+      // Move the camera around on keypress.
+      /*window.onkeydown = e => {
+        const keyTime    = new Date();
+        const elapsed    = keyTime.getTime() - lastKeyTime.getTime();
+        const moveDelta  = (elapsed > 100) ? moveUnitsPerSec * 15 / 1000 : moveUnitsPerSec * elapsed / 1000
+        const rotDelta = (elapsed > 100) ? rotUnitsPerSec * 15 / 1000 : rotUnitsPerSec * elapsed / 1000
+
+        lastKeyTime      = keyTime;
+
+        if (e.code === 'KeyW')
+          camera.moveForward(moveDelta);
+        if (e.code === 'KeyS')
+          camera.moveBackward(moveDelta);
+        if (e.code === 'KeyD')
+          camera.strafeRight(moveDelta);
+        if (e.code === 'KeyA')
+          camera.strafeLeft(moveDelta);
+        if (e.code === 'ArrowUp')
+          camera.pitchUp(rotDelta);
+        if (e.code === 'ArrowDown')
+          camera.pitchDown(rotDelta);
+        if (e.code === 'ArrowRight')
+          camera.yawRight(rotDelta);
+        if (e.code === 'ArrowLeft')
+          camera.yawLeft(rotDelta);
+      };*/
+
+      // Start rendering.
       easel.start();
     });
 })(window.bsy);
