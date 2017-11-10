@@ -9,8 +9,25 @@
     /**
      * Initialize the world.
      */
-    constructor() {
+    constructor(camera = new bsy.Camera()) {
       super();
+
+      this.setCamera(camera);
+    }
+
+    /**
+     * Get the camera.
+     */
+    getCamera() {
+      return this.camera;
+    }
+
+    /**
+     * Set the camera.
+     */
+    setCamera(camera) {
+      this.camera = camera;
+      return this;
     }
   }
 
