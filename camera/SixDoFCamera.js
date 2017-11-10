@@ -85,9 +85,9 @@
     }
 
     /**
-     * Pitch the camera up.
+     * Pitch the camera.
      */
-    pitchUp(units) {
+    pitch(units) {
       // Rotate the up (V) and look (N) about the right (U) axis.
       const rot = quat.setAxisAngle(quat.create(), this.U, units);
 
@@ -98,16 +98,23 @@
     }
 
     /**
-     * Pitch the camera down.
+     * Pitch the camera up.
      */
-    pitchDown(units) {
-      this.pitchUp(-units);
+    pitchUp(units) {
+      this.pitch(units);
     }
 
     /**
-     * Yaw the camera left.
+     * Pitch the camera down.
      */
-    yawLeft(units) {
+    pitchDown(units) {
+      this.pitch(-units);
+    }
+
+    /**
+     * Yaw the camera.
+     */
+    yaw(units) {
       // Rotate right (U) and look (N) about the up (V) axis.
       const rot = quat.setAxisAngle(quat.create(), this.V, units);
 
@@ -118,10 +125,17 @@
     }
 
     /**
+     * Yaw the camera left.
+     */
+    yawLeft(units) {
+      this.yaw(units);
+    }
+
+    /**
      * Yaw the camera right.
      */
     yawRight(units) {
-      this.yawLeft(-units);
+      this.yaw(-units);
     }
   }
 
