@@ -147,5 +147,5 @@
   }
 
   bsy.ADSTextureWorldObjectRenderer = ADSTextureWorldObjectRenderer;
-})(window.bsy)
+})(window.bsy);
 

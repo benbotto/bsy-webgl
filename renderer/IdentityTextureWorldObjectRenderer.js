@@ -94,5 +94,5 @@
   }
 
   bsy.IdentityTextureWorldObjectRenderer = IdentityTextureWorldObjectRenderer;
-})(window.bsy)
+})(window.bsy);
 

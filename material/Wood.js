@@ -10,10 +10,10 @@
     constructor() {
       super();
 
-      this.ambient  = vec4.fromValues(0.09, 0.06, 0.05, 1.0);
-      this.diffuse  = vec4.fromValues(0.09, 0.06, 0.05, 1.0);
-      this.specular = vec4.fromValues(0.15, 0.1,  0.05, 1.0);
-      this.shininess = .9;
+      this.ambient   = vec4.fromValues(0.09, 0.06, 0.05, 1.0);
+      this.diffuse   = vec4.fromValues(0.09, 0.06, 0.05, 1.0);
+      this.specular  = vec4.fromValues(0.15, 0.1,  0.05, 1.0);
+      this.shininess = 0.9;
     }
 
     /**

@@ -12,7 +12,7 @@
       this._pointerLocked    = false;
       this.onmousemove       = function() {};
 
-      document.onpointerlockchange = e => this._onpointerlockchange(e);
+      window.document.onpointerlockchange = e => this._onpointerlockchange(e);
 
       this.canvas.onclick = () => this._lockPointer();
       this.canvas.onmousemove = e => this._onmousemove(e);
@@ -49,8 +49,8 @@
     /**
      * When the pointer lock status changes.
      */
-    _onpointerlockchange(e) {
-      this._pointerLocked = document.pointerLockElement === this.canvas;
+    _onpointerlockchange() {
+      this._pointerLocked = window.document.pointerLockElement === this.canvas;
     }
   }
 

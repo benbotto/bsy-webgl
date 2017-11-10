@@ -77,5 +77,5 @@
   }
 
   bsy.SkyBox = SkyBox;
-})(window.bsy)
+})(window.bsy);
 

@@ -75,7 +75,7 @@
      * Iterate over the world objects.
      */
     *[Symbol.iterator]() {
-      for (let [name, wo] of this.worldObjects)
+      for (let wo of this.worldObjects.values())
         yield wo;
     }
 

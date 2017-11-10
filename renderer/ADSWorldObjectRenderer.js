@@ -126,5 +126,5 @@
   }
 
   bsy.ADSWorldObjectRenderer = ADSWorldObjectRenderer;
-})(window.bsy)
+})(window.bsy);
 

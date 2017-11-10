@@ -17,10 +17,13 @@
     }
 
     /**
-     * Do the rendering.
+     * Do the rendering.  By default this just renders all sub renderers.
+     * Generally a renderer should override this method.
      */
-    render(gl, timeDeltaMS, trans) {
-      throw new Error('render() not implemented.');
+    render(gl, timeDeltaMS, trans) { // jshint ignore:line
+      const lTrans = mat4.multiply(mat4.create(), trans, this.getWorldObject().getTransform());
+
+      this.getRenderers().forEach(r => r.render(gl, timeDeltaMS, lTrans));
     }
 
     /**

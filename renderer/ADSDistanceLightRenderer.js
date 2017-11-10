@@ -20,7 +20,7 @@
     /**
      * Render the light.
      */
-    render(gl, timeDeltaMS) {
+    render() {
       const light = this.getWorldObject();
 
       this.useProgram();
@@ -34,5 +34,5 @@
   }
 
   bsy.ADSDistanceLightRenderer = ADSDistanceLightRenderer;
-})(window.bsy)
+})(window.bsy);
 

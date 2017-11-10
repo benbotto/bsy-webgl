@@ -30,7 +30,7 @@
         for (let i = 0; i < 4; ++i) {
           const rotationY = mat4.fromRotation(mat4.create(), Math.PI / 2 * i, yAxis);
 
-          this.vertices.push(...qdVerts.map(v =>
+          this.vertices.push(...qdVerts.map(v => // jshint ignore:line
             vec3.transformMat4(vec3.create(),
               vec3.transformMat4(vec3.create(), v, rotationZ), rotationY)));
         }

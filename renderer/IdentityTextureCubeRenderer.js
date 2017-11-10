@@ -26,13 +26,6 @@
     useMipMaps() {
       return true;
     }
-
-    /**
-     * Render the cube.
-     */
-    render(gl, timeDeltaMS, trans) {
-      this.getRenderers().forEach(r => r.render(gl, timeDeltaMS, this.getWorldObject().getTransform()));
-    }
   }
 
   bsy.IdentityTextureCubeRenderer = IdentityTextureCubeRenderer;

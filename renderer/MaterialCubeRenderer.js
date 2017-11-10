@@ -19,13 +19,6 @@
         .addRenderer(new bsy.ADSWorldObjectRenderer(gl, cube.getWorldObject('front'), program))
         .addRenderer(new bsy.ADSWorldObjectRenderer(gl, cube.getWorldObject('back'),  program));
     }
-
-    /**
-     * Render the cube.
-     */
-    render(gl, timeDeltaMS, trans) {
-      this.getRenderers().forEach(r => r.render(gl, timeDeltaMS, this.getWorldObject().getTransform()));
-    }
   }
 
   bsy.MaterialCubeRenderer = MaterialCubeRenderer;

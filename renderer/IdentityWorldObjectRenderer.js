@@ -79,5 +79,5 @@
   }
 
   bsy.IdentityWorldObjectRenderer = IdentityWorldObjectRenderer;
-})(window.bsy)
+})(window.bsy);
 
