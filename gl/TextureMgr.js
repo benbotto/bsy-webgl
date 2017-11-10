@@ -19,13 +19,13 @@
     /**
      * Load a texture using an Image instance.
      */
-    loadTexture(gl, img) {
+    loadTexture(gl, img, useMipMap = true) {
       const texture = gl.createTexture();
 
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
 
-      if (this.isPowerOf2(img))
+      if (useMipMap && this.isPowerOf2(img))
         gl.generateMipmap(gl.TEXTURE_2D);
       else {
         // Not a power of 2. Turn off mips and set wrapping to clamp to edge.

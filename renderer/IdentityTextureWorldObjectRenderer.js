@@ -10,9 +10,9 @@
     /**
      * Initialize the renderer.
      */
-    constructor(gl, worldObj, program,
-      textureUnit,
-      buffMgr = new bsy.BufferMgr(),
+    constructor(gl, worldObj, program,textureUnit,
+      useMipMaps = true,
+      buffMgr    = new bsy.BufferMgr(),
       textureMgr = new bsy.TextureMgr()) {
 
       super(gl, worldObj, program);
@@ -21,7 +21,7 @@
 
       this.vertBuffer    = buffMgr.fillNewBuffer(gl, worldObj.getVertices());
       this.texelBuffer   = buffMgr.fillNewBuffer(gl, worldObj.getTextureCoords());
-      this.texture       = textureMgr.loadTexture(gl, worldObj.getTextureImage());
+      this.texture       = textureMgr.loadTexture(gl, worldObj.getTextureImage(), useMipMaps);
 
       this.modelLoc      = gl.getUniformLocation(program, 'uModelMatrix');
       this.viewLoc       = gl.getUniformLocation(program, 'uViewMatrix');
@@ -68,10 +68,11 @@
       gl.vertexAttribPointer(this.texelLoc, 2, gl.FLOAT, false, 0, 0);
       gl.enableVertexAttribArray(this.texelLoc);
 
-      // Active the texture.
+      // Active the texture, and inform the shader program which unit has bound
+      // (0-based index).
       gl.activeTexture(this.textureUnit);
       gl.bindTexture(gl.TEXTURE_2D, this.texture);
-      gl.uniform1i(this.samplerLoc, 0);
+      gl.uniform1i(this.samplerLoc, this.textureUnit - gl.TEXTURE0);
 
       // The model matrix is this object's transform and the parent's.
       const modelMatrix = mat4.create();
