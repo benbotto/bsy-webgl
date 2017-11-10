@@ -16,11 +16,12 @@
       this.fov    = 35 * Math.PI / 180;
       this.zNear  = 0.1;
       this.zFar   = 1000.0;
-
-      // TODO: This needs to be changed on window resize, and the projection
-      // needs to be adjusted accordingly.
-      this.aspect     = null;
+      this.aspect = null;
       this.updateViewSize();
+
+      // The view comes from the world's camera.  The view is updated on each
+      // render() call.
+      this.setView(this.getWorldObject().getCamera().getView());
 
       // Clear to black.
       gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -79,6 +80,7 @@
     render(gl, timeDeltaMS) {
       this.clear();
       this.useProgram();
+      this.setView(this.getWorldObject().getCamera().getView());
       this.renderers.forEach(r => r.render(gl, timeDeltaMS, this.getTransform()));
     }
   }
