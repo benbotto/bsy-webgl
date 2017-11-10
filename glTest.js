@@ -85,15 +85,27 @@
         .addRenderer(new bsy.ADSDistanceLightRenderer(gl, light, adstProgram))
         .addRenderer(new bsy.TextureMaterialCubeRenderer(gl, litCrate, adstProgram));
 
+      // Handles the mouse.
+      const mouseMgr = new bsy.MouseMgr(easel.canvas);
+      mouseMgr.onmousemove = e => {
+        if (!e.pointerLocked)
+          return;
+
+        const rotAmountX = -e.movementX / 400;
+        const rotAmountY = -e.movementY / 400;
+
+        camera.yaw(rotAmountX);
+        camera.pitch(rotAmountY);
+      };
+
       // Handles key state.
       const keyMgr          = new bsy.KeyMgr();
-      const moveUnitsPerSec = 5;
+      const moveUnitsPerSec = 10;
       const rotUnitsPerSec  = Math.PI / 10;
 
       easel.onDraw = (gl, timeDeltaMS) => {
         // Check if the camera should be moved.
         const moveDelta = moveUnitsPerSec * timeDeltaMS / 1000;
-        const rotDelta  = rotUnitsPerSec  * timeDeltaMS / 1000;
 
         if (keyMgr.isKeyDown('KeyW'))
           camera.moveForward(moveDelta);
@@ -103,14 +115,6 @@
           camera.strafeRight(moveDelta);
         if (keyMgr.isKeyDown('KeyA'))
           camera.strafeLeft(moveDelta);
-        if (keyMgr.isKeyDown('ArrowUp'))
-          camera.pitchUp(rotDelta);
-        if (keyMgr.isKeyDown('ArrowDown'))
-          camera.pitchDown(rotDelta);
-        if (keyMgr.isKeyDown('ArrowRight'))
-          camera.yawRight(rotDelta);
-        if (keyMgr.isKeyDown('ArrowLeft'))
-          camera.yawLeft(rotDelta);
 
         mat4.rotate(matCubeTrans, matCubeTrans, Math.PI * timeDeltaMS / 3000, [1.0, 0.0, 0.0]);
         mat4.rotate(matCubeTrans, matCubeTrans, Math.PI * timeDeltaMS / 4000, [0.0, 1.0, 0.0]);
@@ -136,33 +140,6 @@
 
       // Update the canvas size with the window size is changed.
       easel.onresize = () => worldRenderer.updateViewSize();
-
-      // Move the camera around on keypress.
-      /*window.onkeydown = e => {
-        const keyTime    = new Date();
-        const elapsed    = keyTime.getTime() - lastKeyTime.getTime();
-        const moveDelta  = (elapsed > 100) ? moveUnitsPerSec * 15 / 1000 : moveUnitsPerSec * elapsed / 1000
-        const rotDelta = (elapsed > 100) ? rotUnitsPerSec * 15 / 1000 : rotUnitsPerSec * elapsed / 1000
-
-        lastKeyTime      = keyTime;
-
-        if (e.code === 'KeyW')
-          camera.moveForward(moveDelta);
-        if (e.code === 'KeyS')
-          camera.moveBackward(moveDelta);
-        if (e.code === 'KeyD')
-          camera.strafeRight(moveDelta);
-        if (e.code === 'KeyA')
-          camera.strafeLeft(moveDelta);
-        if (e.code === 'ArrowUp')
-          camera.pitchUp(rotDelta);
-        if (e.code === 'ArrowDown')
-          camera.pitchDown(rotDelta);
-        if (e.code === 'ArrowRight')
-          camera.yawRight(rotDelta);
-        if (e.code === 'ArrowLeft')
-          camera.yawLeft(rotDelta);
-      };*/
 
       // Start rendering.
       easel.start();
