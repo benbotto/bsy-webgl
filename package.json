@@ -1,6 +1,6 @@
 {
   "name": "bsy-webgl",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Canvas square mouse avoidance background.",
   "main": "index.html",
   "author": "Ben Botto",
