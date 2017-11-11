@@ -1,5 +1,5 @@
 {
-  "name": "square-mouse-avoid-webgl",
+  "name": "bsy-webgl",
   "version": "1.0.0",
   "description": "Canvas square mouse avoidance background.",
   "main": "index.html",
