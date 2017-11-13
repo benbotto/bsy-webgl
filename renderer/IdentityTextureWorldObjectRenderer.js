@@ -19,8 +19,8 @@
 
       this.textureUnit   = (textureUnit === undefined) ? gl.TEXTURE0 : textureUnit;
 
-      this.vertBuffer    = buffMgr.fillNewBuffer(gl, worldObj.getVertices());
-      this.texelBuffer   = buffMgr.fillNewBuffer(gl, worldObj.getTextureCoords());
+      this.vertBuffer    = buffMgr.fillNewFloatArrayBuffer(gl, worldObj.getVertices());
+      this.texelBuffer   = buffMgr.fillNewFloatArrayBuffer(gl, worldObj.getTextureCoords());
       this.texture       = textureMgr.loadTexture(gl, worldObj.getTextureImage(), useMipMaps);
 
       this.modelLoc      = gl.getUniformLocation(program, 'uModelMatrix');

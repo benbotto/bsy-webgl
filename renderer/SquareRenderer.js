@@ -10,8 +10,8 @@
     constructor(gl, square, program, buffMgr = new bsy.BufferMgr()) {
       super(gl, square, program);
 
-      this.vertBuffer    = buffMgr.fillNewBuffer(gl, square.getVertices());
-      this.colorBuffer   = buffMgr.fillNewBuffer(gl, square.getVertexColors());
+      this.vertBuffer    = buffMgr.fillNewFloatArrayBuffer(gl, square.getVertices());
+      this.colorBuffer   = buffMgr.fillNewFloatArrayBuffer(gl, square.getVertexColors());
 
       this.modelLoc      = gl.getUniformLocation(program, 'uModelMatrix');
       this.viewLoc       = gl.getUniformLocation(program, 'uViewMatrix');

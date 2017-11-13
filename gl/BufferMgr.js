@@ -3,9 +3,9 @@
 
   class BufferMgr {
     /**
-     * Create and fill a buffer.
+     * Create and fill a float buffer.
      */
-    fillNewBuffer(gl, data) {
+    fillNewFloatArrayBuffer(gl, data) {
       const buffer = gl.createBuffer();
 
       // The buffer will be used for vertex data, like coordinates, colors or

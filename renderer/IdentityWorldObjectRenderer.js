@@ -12,8 +12,8 @@
     constructor(gl, worldObj, program, buffMgr = new bsy.BufferMgr()) {
       super(gl, worldObj, program);
 
-      this.vertBuffer    = buffMgr.fillNewBuffer(gl, worldObj.getVertices());
-      this.colorBuffer   = buffMgr.fillNewBuffer(gl, worldObj.getVertexColors());
+      this.vertBuffer    = buffMgr.fillNewFloatArrayBuffer(gl, worldObj.getVertices());
+      this.colorBuffer   = buffMgr.fillNewFloatArrayBuffer(gl, worldObj.getVertexColors());
 
       this.modelLoc      = gl.getUniformLocation(program, 'uModelMatrix');
       this.viewLoc       = gl.getUniformLocation(program, 'uViewMatrix');
