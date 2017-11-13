@@ -6,8 +6,8 @@
     /**
      * Initialize the Renderer.
      */
-    constructor(gl, world, program) {
-      super(gl, world, program);
+    constructor(gl, world) {
+      super(gl, world);
 
       // World-wide transformation.
       this.transform = mat4.create();
@@ -79,7 +79,6 @@
      */
     render(gl, timeDeltaMS) {
       this.clear();
-      this.useProgram();
       this.setView(this.getWorldObject().getCamera().getView());
       this.renderers.forEach(r => r.render(gl, timeDeltaMS, this.getTransform()));
     }
