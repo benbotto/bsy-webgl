@@ -17,6 +17,21 @@
 
       return buffer;
     }
+
+    /**
+     * Create and fill an int ElementArray buffer.
+     */
+    fillNewIntElementArrayBuffer(gl, data) {
+      const buffer = gl.createBuffer();
+
+      // The buffer will be used for array indices.
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
+
+      // Fill the buffer.
+      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(data), gl.STATIC_DRAW);
+
+      return buffer;
+    }
   }
 
   bsy.BufferMgr = BufferMgr;
