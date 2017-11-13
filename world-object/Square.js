@@ -13,10 +13,12 @@
         -0.5,   0.5, 0,
          0.5,   0.5, 0,
          0.5,  -0.5, 0,
+        -0.5,  -0.5, 0
+      ];
 
-         0.5,  -0.5, 0,
-        -0.5,  -0.5, 0,
-        -0.5,   0.5, 0
+      this.indices = [
+        0, 1, 2,
+        2, 3, 0
       ];
     }
 
@@ -25,6 +27,13 @@
      */
     getVertices() {
       return this.vertices;
+    }
+
+    /**
+     * Get the vertex indices.
+     */
+    getVertexIndices() {
+      return this.indices;
     }
   }
 

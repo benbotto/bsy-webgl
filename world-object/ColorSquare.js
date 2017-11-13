@@ -16,9 +16,10 @@
      * Set the color.
      */
     setColor(color = [1.0, 1.0, 1.0, 1.0]) {
-      // Color is duplicated 6 times and flattened.
+      // There needs to be one color per vertex.  (Note that each vertex
+      // is made up of 3 elements.)
       this.vertexColors = Array
-        .from({length: 6}, () => color)
+        .from({length: this.getVertices().length / 3}, () => color)
         .reduce((prev, cur) => cur.concat(prev));
     }
 
