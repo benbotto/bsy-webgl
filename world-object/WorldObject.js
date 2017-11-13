@@ -19,6 +19,13 @@
     }
 
     /**
+     * Get the vertex indices.
+     */
+    getVertexIndices() {
+      throw new Error('getVertexIndices() not implemented.');
+    }
+
+    /**
      * Get the vertex colors.
      */
     getVertexColors() {
