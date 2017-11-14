@@ -14,9 +14,10 @@
 
       this.numTriangleStrips = numTriangleStrips;
       this.vertices          = [];
+      this.indices           = [];
 
       // Build a single quater dome and put the result in this.vertices.
-      const qdVerts = this.buildQuarterDome(numTriangleStrips / 2);
+      const qDome = this.buildQuarterDome(numTriangleStrips / 2);
 
       // Build the sphere out of 8 quarter domes.  The first 4 quarter domes are
       // rotated about the Y axis.  The second 4 are rotated about the Z axis
@@ -30,7 +31,7 @@
         for (let i = 0; i < 4; ++i) {
           const rotationY = mat4.fromRotation(mat4.create(), Math.PI / 2 * i, yAxis);
 
-          this.vertices.push(...qdVerts.map(v => // jshint ignore:line
+          this.vertices.push(...qDome.vertices.map(v => // jshint ignore:line
             vec3.transformMat4(vec3.create(),
               vec3.transformMat4(vec3.create(), v, rotationZ), rotationY)));
         }
@@ -40,18 +41,26 @@
       this.vertices = this.vertices.reduce(
         (prev, cur) => prev.concat([cur[0], cur[1], cur[2]]),
         []);
+
+      // Duplicate the vertex indices from the original quater dome, offsetting
+      // for each part of the sphere.
+      for (let i = 0; i < 8; ++i) {
+        this.indices
+          .push(...qDome.indices
+            .map(index => index + qDome.vertices.length * i)); // jshint ignore:line
+      }
     }
 
     /**
      * Build a quarter dome.
      */
-    buildQuarterDome(numTriangleStrips = 16) {
+    buildQuarterDome(numTriangleStrips = 32) {
       const zAxis     = vec3.fromValues(0.0, 0.0, 1.0);
       const yAxis     = vec3.fromValues(0.0, 1.0, 0.0);
       const start     = vec3.fromValues(0.0, 1.0, 0.0);
       const halfPI    = Math.PI / 2;
       const vertices  = [];
-      const holdVerts = [];
+      const indices   = [];
 
       /* 
        * This works by generating a large triangle composed of numTriangleStrips
@@ -72,54 +81,55 @@
         const angleZ         = halfPI / numTriangleStrips * level;
         const rotationZ      = mat4.fromRotation(mat4.create(), angleZ, zAxis);
         const vertsThisLevel = level + 1;
-        const levelVerts     = [];
 
         for (let v = 0; v < vertsThisLevel; ++v) {
           const angleY    = (vertsThisLevel === 1) ? 0 : halfPI / (vertsThisLevel - 1) * v;
           const rotationY = mat4.fromRotation(mat4.create(), angleY, yAxis);
 
           // "start" is rotated about Z then about Y.
-          levelVerts.push(
+          vertices.push(
             vec3.transformMat4(vec3.create(),
               vec3.transformMat4(vec3.create(), start, rotationZ), rotationY));
         }
-
-        holdVerts.push(levelVerts);
       }
 
-      /* From the vertices generated above, create a series of triangles that
-       * can be used to draw the quarter dome.
+      /**
+       * From the vertices generated above, create vertex indices that can be
+       * used to draw the quarter dome.
        *
        *               |Level|Triangles
        *               |-----|---------
        *       0       |  0  |
        *      / \      |     |
-       *     0---1     |  1  | [0,1,0 UP]
+       *     1---2     |  1  | [0,2,1 UP]
        *    / \ / \    |     |
-       *   0---1---2   |  2  | [0,1,0 UP] [1,2,1 UP] [0,1,1 DOWN]
+       *   3---4---5   |  2  | [1,4,3 UP] [2,5,4 UP] [1,2,4 DOWN]
        *  / \ / \ / \  |     |
-       * 0---1---2---3 |  3  | [0,1,0 UP] [1,2,1 UP] [2,3,2 UP] [0,1,1 DOWN] [1,2,2 DOWN]
-       *
+       * 6---7---8---9 |  3  | [3,7,6 UP] [4,8,7 UP] [5,9,8 UP] [3,4,7 DOWN] [4,5,8 DOWN]
        */
-      for (let level = 1; level < holdVerts.length; ++level) {
+      for (let level = 1; level < numTriangleStrips + 1; ++level) {
         const numUp   = level;
         const numDown = level - 1;
+        // The start index for the level is a sequence: n(n+1) / 2.
+        // I.e. the start points are 0, 1, 3, 6, 10, 15, ...
+        const lInd    = (level - 1)*level / 2;
+        const nInd    = lInd + level;
 
         // The vertices are pushed clockwise for vertex normal computation.
         for (let u = 0; u < numUp; ++u) {
-          vertices.push(holdVerts[level][u]);
-          vertices.push(holdVerts[level - 1][u]);
-          vertices.push(holdVerts[level][u + 1]);
+          indices.push(lInd + u);
+          indices.push(nInd + u + 1);
+          indices.push(nInd + u);
         }
 
         for (let d = 0; d < numDown; ++d) {
-          vertices.push(holdVerts[level - 1][d]);
-          vertices.push(holdVerts[level - 1][d + 1]);
-          vertices.push(holdVerts[level][d + 1]);
+          indices.push(lInd + d);
+          indices.push(lInd + d + 1);
+          indices.push(nInd + d + 1);
         }
       }
 
-      return vertices;
+      return {vertices, indices};
     }
 
     /**
@@ -127,6 +137,21 @@
      */
     getVertices() {
       return this.vertices;
+    }
+
+    /**
+     * Get the vertex indices.
+     */
+    getVertexIndices() {
+      return this.indices;
+    }
+
+    /**
+     * Get the normals.  Note that for a sphere the vertex normals are really
+     * just the vertices.
+     */
+    getVertexNormals() {
+      return this.getVertices();
     }
   }
 
