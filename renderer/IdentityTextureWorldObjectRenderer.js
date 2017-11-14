@@ -3,8 +3,8 @@
 
   /**
    * Renderer for world objects that use the identity texture shader.  The
-   * world object must implement getVertices(), getTextureImage() and
-   * getTextureCoords().
+   * world object must implement getVertices(), getVertexIndices(),
+   * getTextureImage() and getTextureCoords().
    */
   class IdentityTextureWorldObjectRenderer extends bsy.Renderer {
     /**
@@ -21,6 +21,7 @@
 
       this.vertBuffer    = buffMgr.fillNewFloatArrayBuffer(gl, worldObj.getVertices());
       this.texelBuffer   = buffMgr.fillNewFloatArrayBuffer(gl, worldObj.getTextureCoords());
+      this.indBuffer     = buffMgr.fillNewIntElementArrayBuffer(gl, worldObj.getVertexIndices());
       this.texture       = textureMgr.loadTexture(gl, worldObj.getTextureImage(), useMipMaps);
 
       this.modelLoc      = gl.getUniformLocation(program, 'uModelMatrix');
@@ -68,6 +69,9 @@
       gl.vertexAttribPointer(this.texelLoc, 2, gl.FLOAT, false, 0, 0);
       gl.enableVertexAttribArray(this.texelLoc);
 
+      // Indices.
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indBuffer);
+
       // Active the texture, and inform the shader program which unit has bound
       // (0-based index).
       gl.activeTexture(this.textureUnit);
@@ -84,8 +88,9 @@
       this.writeView();
       this.writeModel();
 
-      // Draw the vertices.  Each vertex is a vec3, hence the divide-by-3.
-      gl.drawArrays(gl.TRIANGLES, 0, this.getWorldObject().getVertices().length / 3);
+      // Draw the object using the indices buffer.
+      gl.drawElements(gl.TRIANGLES,
+        this.getWorldObject().getVertexIndices().length, gl.UNSIGNED_SHORT, 0);
 
       // Cleanup.
       gl.disableVertexAttribArray(this.vertexLoc);
