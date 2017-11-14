@@ -25,14 +25,6 @@
     getMaterial() {
       return this.material;
     }
-
-    /**
-     * Get the normals.  Note that for a sphere the vertex normals are really
-     * just the vertices.
-     */
-    getVertexNormals() {
-      return this.getVertices();
-    }
   }
 
   bsy.MaterialSphere = MaterialSphere;
