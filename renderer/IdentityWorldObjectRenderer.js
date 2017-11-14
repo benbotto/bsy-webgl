@@ -3,7 +3,7 @@
 
   /**
    * Renderer for world objects that use the identity shader.  The world object
-   * must implement getVertices() and getVertexColors().
+   * must implement getVertices(), getVertexIndices(), and getVertexColors().
    */
   class IdentityWorldObjectRenderer extends bsy.Renderer {
     /**
