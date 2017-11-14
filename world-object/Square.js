@@ -16,6 +16,13 @@
         -0.5,  -0.5, 0
       ];
 
+      this.vertexNormals = [
+        0.0, 0.0, 1.0,
+        0.0, 0.0, 1.0,
+        0.0, 0.0, 1.0,
+        0.0, 0.0, 1.0
+      ];
+
       this.indices = [
         0, 1, 2,
         2, 3, 0
@@ -34,6 +41,13 @@
      */
     getVertexIndices() {
       return this.indices;
+    }
+
+    /**
+     * Get the normals.
+     */
+    getVertexNormals() {
+      return this.vertexNormals;
     }
   }
 
