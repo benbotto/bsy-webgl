@@ -28,13 +28,6 @@
     }
 
     /**
-     * Get the normals.
-     */
-    getVertexNormals() {
-      return this._matSquare.getVertexNormals();
-    }
-
-    /**
      * Set the texture image.
      */
     setTextureImage(image) {

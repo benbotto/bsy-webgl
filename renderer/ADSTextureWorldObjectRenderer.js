@@ -21,6 +21,7 @@
       this.vertBuffer     = buffMgr.fillNewFloatArrayBuffer(gl, worldObj.getVertices());
       this.vertNormBuffer = buffMgr.fillNewFloatArrayBuffer(gl, worldObj.getVertexNormals());
       this.texelBuffer    = buffMgr.fillNewFloatArrayBuffer(gl, worldObj.getTextureCoords());
+      this.indBuffer      = buffMgr.fillNewIntElementArrayBuffer(gl, worldObj.getVertexIndices());
       this.texture        = textureMgr.loadTexture(gl, worldObj.getTextureImage());
 
       this.modelLoc        = gl.getUniformLocation(program, 'uModelMatrix');
@@ -114,6 +115,9 @@
       gl.vertexAttribPointer(this.texelLoc, 2, gl.FLOAT, false, 0, 0);
       gl.enableVertexAttribArray(this.texelLoc);
 
+      // Indices.
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indBuffer);
+
       // Active the texture.
       gl.activeTexture(this.textureUnit);
       gl.bindTexture(gl.TEXTURE_2D, this.texture);
@@ -136,8 +140,9 @@
       // model * view.
       this.writeNormalTrans(modelMatrix);
 
-      // Draw the vertices.  Each vertex is a vec3, hence the divide-by-3.
-      gl.drawArrays(gl.TRIANGLES, 0, this.getWorldObject().getVertices().length / 3);
+      // Draw the object using the indices buffer.
+      gl.drawElements(gl.TRIANGLES,
+        this.getWorldObject().getVertexIndices().length, gl.UNSIGNED_SHORT, 0);
 
       // Cleanup.
       gl.disableVertexAttribArray(this.vertexLoc);
