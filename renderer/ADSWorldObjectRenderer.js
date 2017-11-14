@@ -3,7 +3,8 @@
 
   /**
    * Renderer for world objects that use the ADS shader.  The world object must
-   * implement getVertices(), getMaterial(), and getVertexNormals().
+   * implement getVertices(), getMaterial(), getVertexIndices(), and
+   * getVertexNormals().
    */
   class ADSWorldObjectRenderer extends bsy.Renderer {
     /**
@@ -14,6 +15,7 @@
 
       this.vertBuffer     = buffMgr.fillNewFloatArrayBuffer(gl, worldObj.getVertices());
       this.vertNormBuffer = buffMgr.fillNewFloatArrayBuffer(gl, worldObj.getVertexNormals());
+      this.indBuffer      = buffMgr.fillNewIntElementArrayBuffer(gl, worldObj.getVertexIndices());
 
       this.modelLoc        = gl.getUniformLocation(program, 'uModelMatrix');
       this.viewLoc         = gl.getUniformLocation(program, 'uViewMatrix');
@@ -99,6 +101,9 @@
       gl.vertexAttribPointer(this.vertexNormLoc, 3, gl.FLOAT, false, 0, 0);
       gl.enableVertexAttribArray(this.vertexNormLoc);
 
+      // Indices.
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indBuffer);
+
       // The model matrix is this object's transform and the parent's.
       const modelMatrix = mat4.create();
       mat4.multiply(modelMatrix, trans, this.getWorldObject().getTransform());
@@ -116,8 +121,9 @@
       // model * view.
       this.writeNormalTrans(modelMatrix);
 
-      // Draw the vertices.  Each vertex is a vec3, hence the divide-by-3.
-      gl.drawArrays(gl.TRIANGLES, 0, this.getWorldObject().getVertices().length / 3);
+      // Draw the object using the indices buffer.
+      gl.drawElements(gl.TRIANGLES,
+        this.getWorldObject().getVertexIndices().length, gl.UNSIGNED_SHORT, 0);
 
       // Cleanup.
       gl.disableVertexAttribArray(this.vertexLoc);
