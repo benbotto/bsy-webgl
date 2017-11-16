@@ -61,6 +61,8 @@
       const litCrate  = new bsy.TextureMaterialCube(crateImg, new bsy.Wood());
       const skyBox    = new bsy.SkyBox(camera,
         [sUpImg, sDownImg, sRightImg, sLeftImg, sFrontImg, sBackImg]);
+      const floor     = new bsy.Trimesh(4, 4);
+      console.log(floor);
 
       world.addWorldObject('distLight', light);
       world.addWorldObject('clrCube',   clrCube);
