@@ -38,9 +38,7 @@
       }
 
       // Flatten the verts into one big array.
-      this.vertices = this.vertices.reduce(
-        (prev, cur) => prev.concat([cur[0], cur[1], cur[2]]),
-        []);
+      this.vertices = bsy.VecUtils.flattenVec3Array(this.vertices);
 
       // Duplicate the vertex indices from the original quater dome, offsetting
       // for each part of the sphere.

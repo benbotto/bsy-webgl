@@ -25,8 +25,8 @@
      * rendered.
      */
     createVertexNormalLines(worldObj) {
-      const verts   = toVec3Array(worldObj.getVertices());
-      const normals = toVec3Array(worldObj.getVertexNormals());
+      const verts   = bsy.VecUtils.toVec3Array(worldObj.getVertices());
+      const normals = bsy.VecUtils.toVec3Array(worldObj.getVertexNormals());
 
       return verts
         // Create a unit-length line from each vertex in the direction of the
@@ -36,16 +36,6 @@
         .reduce((prev, cur) => prev.concat(cur), [])
         // Flatten the vertices into one big array.
         .reduce((prev, cur) => prev.concat(cur[0], cur[1], cur[2]), []);
-
-      // Helper to convert an array of floats to an array of vec3.
-      function toVec3Array(vecs) {
-        const vec3s = [];
-
-        for (let i = 0; i < vecs.length; i += 3)
-          vec3s.push(vec3.fromValues(vecs[i], vecs[i+1], vecs[i+2]));
-
-        return vec3s;
-      }
     }
 
     /**
