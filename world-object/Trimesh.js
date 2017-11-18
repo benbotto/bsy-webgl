@@ -17,8 +17,8 @@
       // Create a rectangle of vectors, each 1 units apart.
       const start = vec3.fromValues(-width / 2, 0, -depth / 2);
 
-      for (let x = 0; x <= width; x += 1) {
-        for (let z = 0; z <= depth; z += 1) {
+      for (let x = 0; x <= width; ++x) {
+        for (let z = 0; z <= depth; ++z) {
           const trans = mat4.fromTranslation(mat4.create(), [x, 0, z]);
           const vert  = vec3.transformMat4(vec3.create(), start, trans);
 
@@ -66,7 +66,18 @@
         }
       }
 
+      // The vertex normals are computed by averaging the face normals
+      // for each triangle.
       this.vertexNormals = this.computeVertexNormals();
+
+      // Set up the texels.
+      this.textureCoords = [];
+
+      for (let x = 0; x <= width; ++x) {
+        for (let z = 0; z <= depth; ++z) {
+          this.textureCoords.push(x / width, z / depth);
+        }
+      }
     }
 
     /**
@@ -123,6 +134,28 @@
      */
     getMaterial() {
       return this.material;
+    }
+
+    /**
+     * Set the texture image.
+     */
+    setTextureImage(image) {
+      this.textureImage = image;
+      return this;
+    }
+
+    /**
+     * Get the texture image.
+     */
+    getTextureImage() {
+      return this.textureImage;
+    }
+
+    /**
+     * Get the texture coordinates.
+     */
+    getTextureCoords() {
+      return this.textureCoords;
     }
   }
 

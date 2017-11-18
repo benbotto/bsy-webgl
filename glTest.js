@@ -13,8 +13,9 @@
       textureMgr.loadImage('/example/ame_nebula/purplenebula_lf.png'),
       textureMgr.loadImage('/example/ame_nebula/purplenebula_ft.png'),
       textureMgr.loadImage('/example/ame_nebula/purplenebula_bk.png'),
+      textureMgr.loadImage('/example/floor.png'),
     ])
-    .then(([crateImg, sUpImg, sDownImg, sRightImg, sLeftImg, sFrontImg, sBackImg]) => {
+    .then(([crateImg, sUpImg, sDownImg, sRightImg, sLeftImg, sFrontImg, sBackImg, floorImg]) => {
       const easel  = new bsy.Easel();
       const gl     = easel.getContext();
 
@@ -67,8 +68,9 @@
         .setMaterial(new bsy.Wood());
       const skyBox    = new bsy.SkyBox(camera,
         [sUpImg, sDownImg, sRightImg, sLeftImg, sFrontImg, sBackImg]);
-      const floor     = new bsy.Trimesh(10, 10, () => Math.random() - 0.5);
-      floor.setMaterial(new bsy.Brass());
+      const floor     = new bsy.Trimesh(10, 10, () => Math.random() - 0.5)
+        .setMaterial(new bsy.Wood())
+        .setTextureImage(floorImg);
 
       world.addWorldObject('distLight', light);
       world.addWorldObject('clrCube',   clrCube);
@@ -111,7 +113,7 @@
         .addRenderer(new bsy.IdentityTextureCubeRenderer(gl, crate, idtProgram))
         .addRenderer(new bsy.ADSDistanceLightRenderer(gl, light, adstProgram))
         .addRenderer(new bsy.TextureMaterialCubeRenderer(gl, litCrate, adstProgram))
-        .addRenderer(new bsy.ADSWorldObjectRenderer(gl, floor, adsProgram));
+        .addRenderer(new bsy.ADSTextureWorldObjectRenderer(gl, floor, adstProgram));
 
       // Handles the mouse.
       const mouseMgr = new bsy.MouseMgr(easel.canvas);
