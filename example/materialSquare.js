@@ -21,7 +21,8 @@
     vec4.fromValues(0.6, 0.5, 0.5, 1.0),
     vec3.fromValues(0.0, 0.0, -1.0)
   );
-  const square = new bsy.MaterialSquare(new bsy.Brass());
+  const square = new bsy.Square()
+    .setMaterial(new bsy.Brass());
 
   world.addWorldObject('distLight', light);
   world.addWorldObject('square',    square);

@@ -19,7 +19,8 @@
   // Create the world.
   const camera = new bsy.SixDoFCamera();
   const world  = new bsy.World(camera);
-  const cube   = new bsy.TextureCube(crateImg);
+  const cube   = new bsy.Cube()
+    .setTextureImage(crateImg);
 
   world.addWorldObject('cube', cube);
 

@@ -15,7 +15,8 @@
   // Create the world.
   const camera = new bsy.SixDoFCamera();
   const world  = new bsy.World(camera);
-  const square = new bsy.ColorSquare([1.0, 0.5, 1.0, 1.0]);
+  const square = new bsy.Square()
+    .setColor([1.0, 0.5, 1.0, 1.0]);
 
   world.addWorldObject('square', square);
 

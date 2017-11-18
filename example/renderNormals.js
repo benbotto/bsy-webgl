@@ -21,8 +21,10 @@
     vec4.fromValues(0.8, 0.9, 0.9, 1.0),
     vec3.fromValues(0.0, 0.0, -1.0)
   );
-  const sphere = new bsy.MaterialSphere(new bsy.BluePlastic(), 6);
-  const square = new bsy.MaterialSquare(new bsy.Brass());
+  const sphere = new bsy.Sphere()
+    .setMaterial(new bsy.BluePlastic(), 6);
+  const square = new bsy.Square()
+    .setMaterial(new bsy.Brass());
 
   world.addWorldObject('sphere', sphere);
   world.addWorldObject('square', square);

@@ -15,14 +15,15 @@
   // Create the world.
   const camera = new bsy.SixDoFCamera();
   const world  = new bsy.World(camera);
-  const cube   = new bsy.ColorCube([
-    [0.0, 0.0, 1.0, 1.0],
-    [0.0, 1.0, 0.0, 1.0],
-    [0.0, 1.0, 1.0, 1.0],
-    [1.0, 0.0, 0.0, 1.0],
-    [1.0, 0.0, 1.0, 1.0],
-    [1.0, 1.0, 0.0, 1.0]
-  ]);
+  const cube   = new bsy.Cube()
+    .setColors([
+      [0.0, 0.0, 1.0, 1.0],
+      [0.0, 1.0, 0.0, 1.0],
+      [0.0, 1.0, 1.0, 1.0],
+      [1.0, 0.0, 0.0, 1.0],
+      [1.0, 0.0, 1.0, 1.0],
+      [1.0, 1.0, 0.0, 1.0]
+    ]);
 
   world.addWorldObject('cube', cube);
 

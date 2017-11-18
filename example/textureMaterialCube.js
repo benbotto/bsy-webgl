@@ -25,7 +25,9 @@
     vec4.fromValues(0.8, 0.9, 0.9, 1.0),
     vec3.fromValues(0.0, 0.0, -1.0)
   );
-  const cube   = new bsy.TextureMaterialCube(crateImg, new bsy.Wood());
+  const cube   = new bsy.Cube()
+    .setTextureImage(crateImg)
+    .setMaterial(new bsy.Wood());
 
   world.addWorldObject('distLight', light);
   world.addWorldObject('cube',      cube);
