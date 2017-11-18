@@ -61,9 +61,7 @@
       const litCrate  = new bsy.TextureMaterialCube(crateImg, new bsy.Wood());
       const skyBox    = new bsy.SkyBox(camera,
         [sUpImg, sDownImg, sRightImg, sLeftImg, sFrontImg, sBackImg]);
-      const floor     = new bsy.ColorTrimesh(10, 10, [.5, .5, 0, 1], (x, z) =>
-        Math.sqrt(Math.abs(Math.pow(7, 2) - Math.pow(x, 2) - Math.pow(z, 2))));
-      const triangle  = new bsy.ColorTriangle([-5, 0, -5], [0, 5, -5], [5, 0, -5], [1, 0, 0, 1]);
+      const floor     = new bsy.ColorTrimesh(2, 2, [.5, .5, 0, 1]);
 
       world.addWorldObject('distLight', light);
       world.addWorldObject('clrCube',   clrCube);
@@ -72,7 +70,6 @@
       world.addWorldObject('crate',     crate);
       world.addWorldObject('litCrate',  litCrate);
       world.addWorldObject('floor',     floor);
-      world.addWorldObject('triangle',  triangle);
 
       const matCubeTrans = matCube.getTransform();
       mat4.translate(matCubeTrans, matCubeTrans, [1.5, 0.0, -12]);
@@ -104,8 +101,7 @@
         .addRenderer(new bsy.ADSDistanceLightRenderer(gl, light, adstProgram))
         .addRenderer(new bsy.TextureMaterialCubeRenderer(gl, litCrate, adstProgram))
         .addRenderer(new bsy.IdentityWorldObjectRenderer(gl, floor, idProgram))
-        .addRenderer(new bsy.IdentityWorldObjectRenderer(gl, triangle, idProgram))
-        .addRenderer(new bsy.VertexNormalRenderer(gl, triangle, idProgram));
+        .addRenderer(new bsy.VertexNormalRenderer(gl, floor, idProgram));
 
       // Handles the mouse.
       const mouseMgr = new bsy.MouseMgr(easel.canvas);
