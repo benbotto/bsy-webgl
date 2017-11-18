@@ -65,6 +65,8 @@
           this.indices.push(start + 1);
         }
       }
+
+      this.vertexNormals = this.computeVertexNormals();
     }
 
     /**
