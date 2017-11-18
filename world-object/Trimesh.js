@@ -7,7 +7,7 @@
     /**
      * Initialize the Trimesh.
      */
-    constructor(width, depth, fnGetY = Math.random) {
+    constructor(width, depth, fnGetY = () => 0) {
       super();
 
       this.vertices      = [];
