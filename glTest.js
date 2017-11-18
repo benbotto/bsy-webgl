@@ -58,7 +58,8 @@
         ]);
       const matCube   = new bsy.Cube()
         .setMaterial(new bsy.Brass());
-      const matSphere = new bsy.MaterialSphere(new bsy.BluePlastic());
+      const matSphere = new bsy.Sphere()
+        .setMaterial(new bsy.BluePlastic());
       const crate     = new bsy.Cube()
         .setTextureImage(crateImg);
       const litCrate  = new bsy.Cube()

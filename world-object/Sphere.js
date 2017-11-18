@@ -154,6 +154,21 @@
     getVertexNormals() {
       return this.getVertices();
     }
+
+    /**
+     * Set the material.
+     */
+    setMaterial(material) {
+      this.material = material;
+      return this;
+    }
+
+    /**
+     * Get the material.
+     */
+    getMaterial() {
+      return this.material;
+    }
   }
 
   bsy.Sphere = Sphere;
