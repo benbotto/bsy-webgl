@@ -31,6 +31,8 @@
 
       // Calculate the view matrix.
       this.setView(mat4.lookAt(mat4.create(), this.location, look, this.V));
+
+      return this;
     }
 
     /**
@@ -49,13 +51,15 @@
         units);
 
       this._updateView();
+
+      return this;
     }
 
     /**
      * Move backward.
      */
     moveBackward(units) {
-      this.moveForward(-units);
+      return this.moveForward(-units);
     }
 
     /**
@@ -75,13 +79,56 @@
         units);
 
       this._updateView();
+
+      return this;
     }
 
     /**
      * Strafe left.
      */
     strafeLeft(units) {
-      this.strafeRight(-units);
+      return this.strafeRight(-units);
+    }
+
+    /**
+     * Alias for strafeRight.
+     */
+    moveRight(units) {
+      return this.strafeRight(units);
+    }
+
+    /**
+     * Alias for strafeleft.
+     */
+    moveleft(units) {
+      return this.strafeRight(-units);
+    }
+
+    /**
+     * Move up.
+     */
+    moveUp(units) {
+      // Normalize the up (V).
+      const yDir = vec3.normalize(vec3.create(), this.V);
+
+      // Scale units in the U direction and add it to the current
+      // location.
+      this.location = vec3.scaleAndAdd(
+        vec3.create(),
+        this.location,
+        yDir,
+        units);
+
+      this._updateView();
+
+      return this;
+    }
+
+    /**
+     * Move down.
+     */
+    moveDown(units) {
+      return this.moveUp(-units);
     }
 
     /**
@@ -95,20 +142,22 @@
       vec3.transformQuat(this.N, this.N, rot);
 
       this._updateView();
+
+      return this;
     }
 
     /**
      * Pitch the camera up.
      */
     pitchUp(units) {
-      this.pitch(units);
+      return this.pitch(units);
     }
 
     /**
      * Pitch the camera down.
      */
     pitchDown(units) {
-      this.pitch(-units);
+      return this.pitch(-units);
     }
 
     /**
@@ -122,20 +171,22 @@
       vec3.transformQuat(this.N, this.N, rot);
 
       this._updateView();
+
+      return this;
     }
 
     /**
      * Yaw the camera left.
      */
     yawLeft(units) {
-      this.yaw(units);
+      return this.yaw(units);
     }
 
     /**
      * Yaw the camera right.
      */
     yawRight(units) {
-      this.yaw(-units);
+      return this.yaw(-units);
     }
   }
 
