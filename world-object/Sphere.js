@@ -47,6 +47,9 @@
           .push(...qDome.indices
             .map(index => index + qDome.vertices.length * i)); // jshint ignore:line
       }
+
+      // Remove any duplicate vertices and reindex accordingly.
+      this.dedupeVertices();
     }
 
     /**
