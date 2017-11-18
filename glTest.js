@@ -61,7 +61,8 @@
       const litCrate  = new bsy.TextureMaterialCube(crateImg, new bsy.Wood());
       const skyBox    = new bsy.SkyBox(camera,
         [sUpImg, sDownImg, sRightImg, sLeftImg, sFrontImg, sBackImg]);
-      const floor     = new bsy.MaterialTrimesh(10, 10, new bsy.Brass(), () => Math.random() - 0.5);
+      const floor     = new bsy.Trimesh(10, 10, () => Math.random() - 0.5);
+      floor.setMaterial(new bsy.Brass());
 
       world.addWorldObject('distLight', light);
       world.addWorldObject('clrCube',   clrCube);
@@ -91,7 +92,7 @@
 
       const floorTrans = floor.getTransform();
       mat4.translate(floorTrans, floorTrans, [0.0, -20.0, 0]);
-      mat4.scale(floorTrans, floorTrans, [100, 10, 100]);
+      mat4.scale(floorTrans, floorTrans, [50, 10, 50]);
 
       // Create the renderers.
       // The light is rendered twice, once for each ADS prog.
