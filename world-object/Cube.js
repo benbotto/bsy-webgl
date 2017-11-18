@@ -55,7 +55,77 @@
      * Protected helper to create the cube faces.
      */
     _createCubeFaces() {
-      throw new Error('_createCubeFaces() not implemented.');
+      // The cube is made up of 6 squares.
+      this.addWorldObject('up',    new bsy.Square());
+      this.addWorldObject('down',  new bsy.Square());
+      this.addWorldObject('right', new bsy.Square());
+      this.addWorldObject('left',  new bsy.Square());
+      this.addWorldObject('front', new bsy.Square());
+      this.addWorldObject('back',  new bsy.Square());
+    }
+
+    /**
+     * Set the colors.
+     */
+    setColors(colors) {
+      // Defaults to all white.
+      if (colors.length !== 6)
+        throw new Error('6 colors are required.');
+
+      this.getWorldObject('up').setColor(colors[0]);
+      this.getWorldObject('down').setColor(colors[1]);
+      this.getWorldObject('right').setColor(colors[2]);
+      this.getWorldObject('left').setColor(colors[3]);
+      this.getWorldObject('front').setColor(colors[4]);
+      this.getWorldObject('back').setColor(colors[5]);
+
+      return this;
+    }
+
+    /**
+     * Set the material.
+     */
+    setMaterial(material) {
+      this.material = material;
+
+      this.getWorldObject('up').setMaterial(material);
+      this.getWorldObject('down').setMaterial(material);
+      this.getWorldObject('right').setMaterial(material);
+      this.getWorldObject('left').setMaterial(material);
+      this.getWorldObject('front').setMaterial(material);
+      this.getWorldObject('back').setMaterial(material);
+
+      return this;
+    }
+
+    /**
+     * Get the material.
+     */
+    getMaterial() {
+      return this.material;
+    }
+
+    /**
+     * Set the texture image.
+     */
+    setTextureImage(image) {
+      this.textureImage = image;
+
+      this.getWorldObject('up').setTextureImage(image);
+      this.getWorldObject('down').setTextureImage(image);
+      this.getWorldObject('right').setTextureImage(image);
+      this.getWorldObject('left').setTextureImage(image);
+      this.getWorldObject('front').setTextureImage(image);
+      this.getWorldObject('back').setTextureImage(image);
+
+      return this;
+    }
+
+    /**
+     * Get the texture image.
+     */
+    getTextureImage() {
+      return this.textureImage;
     }
   }
 

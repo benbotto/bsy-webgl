@@ -15,19 +15,6 @@
     }
 
     /**
-     * Protected helper to create the cube faces.
-     */
-    _createCubeFaces() {
-      // The cube is made up of 6 squares.
-      this.addWorldObject('up',    new bsy.TextureSquare());
-      this.addWorldObject('down',  new bsy.TextureSquare());
-      this.addWorldObject('right', new bsy.TextureSquare());
-      this.addWorldObject('left',  new bsy.TextureSquare());
-      this.addWorldObject('front', new bsy.TextureSquare());
-      this.addWorldObject('back',  new bsy.TextureSquare());
-    }
-
-    /**
      * Set the texture images.
      */
     setTextureImages(images) {
@@ -42,6 +29,8 @@
       this.getWorldObject('left').setTextureImage(images[3]);
       this.getWorldObject('front').setTextureImage(images[4]);
       this.getWorldObject('back').setTextureImage(images[5]);
+
+      return this;
     }
 
     /**

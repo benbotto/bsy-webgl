@@ -47,18 +47,23 @@
         vec4.fromValues(0.6, 0.5, 0.5, 1.0),
         vec3.fromValues(0.0, 0.0, -1.0)
       );
-      const clrCube = new bsy.ColorCube([
-        [0.0, 0.0, 1.0, 1.0],
-        [0.0, 1.0, 0.0, 1.0],
-        [0.0, 1.0, 1.0, 1.0],
-        [1.0, 0.0, 0.0, 1.0],
-        [1.0, 0.0, 1.0, 1.0],
-        [1.0, 1.0, 0.0, 1.0]
-      ]);
-      const matCube   = new bsy.MaterialCube(new bsy.Brass());
+      const clrCube = new bsy.Cube()
+        .setColors([
+          [0.0, 0.0, 1.0, 1.0],
+          [0.0, 1.0, 0.0, 1.0],
+          [0.0, 1.0, 1.0, 1.0],
+          [1.0, 0.0, 0.0, 1.0],
+          [1.0, 0.0, 1.0, 1.0],
+          [1.0, 1.0, 0.0, 1.0]
+        ]);
+      const matCube   = new bsy.Cube()
+        .setMaterial(new bsy.Brass());
       const matSphere = new bsy.MaterialSphere(new bsy.BluePlastic());
-      const crate     = new bsy.TextureCube(crateImg);
-      const litCrate  = new bsy.TextureMaterialCube(crateImg, new bsy.Wood());
+      const crate     = new bsy.Cube()
+        .setTextureImage(crateImg);
+      const litCrate  = new bsy.Cube()
+        .setTextureImage(crateImg)
+        .setMaterial(new bsy.Wood());
       const skyBox    = new bsy.SkyBox(camera,
         [sUpImg, sDownImg, sRightImg, sLeftImg, sFrontImg, sBackImg]);
       const floor     = new bsy.Trimesh(10, 10, () => Math.random() - 0.5);
