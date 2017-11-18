@@ -1,0 +1,1 @@
+It might be better to leave normal vec3 for vertices and such and let the renderer handle conversions.
