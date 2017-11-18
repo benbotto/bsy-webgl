@@ -35,6 +35,13 @@
     }
 
     /**
+     * Change the clear color, which is by default black.
+     */
+    setClearColor(color) {
+      this.getContext().clearColor(color[0], color[1], color[2], color[3]);
+    }
+
+    /**
      * Get this World's transformation matrix.
      */
     getTransform() {
