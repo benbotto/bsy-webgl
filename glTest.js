@@ -61,7 +61,7 @@
       const litCrate  = new bsy.TextureMaterialCube(crateImg, new bsy.Wood());
       const skyBox    = new bsy.SkyBox(camera,
         [sUpImg, sDownImg, sRightImg, sLeftImg, sFrontImg, sBackImg]);
-      const floor     = new bsy.ColorTrimesh(2, 2, [.5, .5, 0, 1]);
+      const floor     = new bsy.MaterialTrimesh(10, 10, new bsy.Brass());
 
       world.addWorldObject('distLight', light);
       world.addWorldObject('clrCube',   clrCube);
@@ -89,6 +89,10 @@
       const litCrateTrans = litCrate.getTransform();
       mat4.translate(litCrateTrans, litCrateTrans, [0.0, 1.5, -12]);
 
+      const floorTrans = floor.getTransform();
+      mat4.translate(floorTrans, floorTrans, [0.0, -20.0, 0]);
+      mat4.scale(floorTrans, floorTrans, [10, 10, 10]);
+
       // Create the renderers.
       // The light is rendered twice, once for each ADS prog.
       const worldRenderer = new bsy.WorldRenderer(gl, world, adsProgram)
@@ -100,8 +104,7 @@
         .addRenderer(new bsy.IdentityTextureCubeRenderer(gl, crate, idtProgram))
         .addRenderer(new bsy.ADSDistanceLightRenderer(gl, light, adstProgram))
         .addRenderer(new bsy.TextureMaterialCubeRenderer(gl, litCrate, adstProgram))
-        .addRenderer(new bsy.IdentityWorldObjectRenderer(gl, floor, idProgram))
-        .addRenderer(new bsy.VertexNormalRenderer(gl, floor, idProgram));
+        .addRenderer(new bsy.ADSWorldObjectRenderer(gl, floor, adsProgram));
 
       // Handles the mouse.
       const mouseMgr = new bsy.MouseMgr(easel.canvas);
