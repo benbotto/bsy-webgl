@@ -1,1 +1,4 @@
-It might be better to leave normal vec3 for vertices and such and let the renderer handle conversions.
+It might be better to leave normal vec3 for vertices and such and let the
+renderer handle conversions.
+For the Trimesh to be useful as a floor there needs to be a getHeight(x, z)
+function.
