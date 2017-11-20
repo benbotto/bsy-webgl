@@ -65,6 +65,20 @@
     getFaceNormal() {
       return this.faceNormal;
     }
+
+    /**
+     * Set the color.
+     */
+    setColor(color = [1.0, 1.0, 1.0, 1.0]) {
+      this.vertexColors = bsy.VecUtils.flattenVec4Array([color, color, color]);
+    }
+
+    /**
+     * Get the vertex colors.
+     */
+    getVertexColors() {
+      return this.vertexColors;
+    }
   }
 
   bsy.Triangle = Triangle;
