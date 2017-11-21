@@ -2,47 +2,81 @@
   'use strict';
 
   /** An object that emitts particles. */
-  class ParticleEmitter {
+  class ParticleEmitter extends bsy.WorldObject {
     /**
-     * Initialze with some number of particles.
+     * Create the particle emitter.  Use addWorldObject() to add particles to
+     * it.
      */
-    constructor(numParticles) {
-      this.numParticles  = numParticles;
-      this.particles     = [];
+    constructor() {
+      super();
+
       this.vertices      = [];
       this.vertexNormals = [];
       this.indices       = [];
       this.textureCoords = [];
-
-      this.createParticles();
+      this.vertexColors  = [];
     }
 
     /**
-     * Protected helper function to create the array of particles.  By default
-     * each particle is a square.
+     * Add a particle.
      */
-    createParticles() {
-      for (let i = 0; i < this.numParticles; ++i) {
-        const square = new bsy.Square();
+    addWorldObject(name, particle) {
+      this.indices.push(...particle
+        .getVertexIndices()
+        .map(ind => ind + this.vertices.length / 3));
 
-        this.particles.push(square);
-        this.vertices.push(...square.getVertices());
-        this.textureCoords.push(...square.getTextureCoords());
-      }
+      this.vertices.push(...particle.getVertices());
+      this.vertexNormals.push(...particle.getVertexNormals());
+      this.textureCoords.push(...particle.getTextureCoords());
 
-      this.indices = this.particles
-        .reduce((prev, cur) => {
-          return prev
-            .concat(cur
-              .getVertexIndices()
-                .map(i => i + prev.length));
-        }, []);
-      window.console.log(this.indices);
-        /*.map((particle, i) => {
-          const indices = particle.getVertexIndices();
+      // Colors are optional
+      const colors = particle.getVertexColors();
 
-          return indices.map(ind => ind + i * indices.length)
-        });*/
+      if (colors)
+        this.vertexColors.push(...colors);
+
+      return super.addWorldObject(name, particle);
+    }
+
+    /**
+     * Get the vertices.
+     */
+    getVertices() {
+      return this.vertices;
+    }
+
+    /**
+     * Get the vertex indices.
+     */
+    getVertexIndices() {
+      return this.indices;
+    }
+
+    /**
+     * Get the normals.
+     */
+    getVertexNormals() {
+      return this.vertexNormals;
+    }
+
+    /**
+     * Get the vertex colors.
+     */
+    getVertexColors() {
+      return this.vertexColors;
+    }
+
+    /**
+     * Get the material.
+     */
+    //getMaterial() {
+    //}
+
+    /**
+     * Get the texture coordinates.
+     */
+    getTextureCoords() {
+      return this.textureCoords;
     }
   }
 
