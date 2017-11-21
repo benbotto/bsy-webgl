@@ -42,9 +42,7 @@
     .addRenderer(new bsy.IdentityWorldObjectRenderer(gl, emitter, idProgram));
  
   // Position the camera.
-  camera
-    .moveBackward(NUM_PART_COLS)
-    .strafeLeft(3);
+  camera.moveBackward(NUM_PART_COLS);
 
   easel.onDraw = (gl, timeDeltaMS) => {
     worldRenderer.render(gl, timeDeltaMS);
@@ -54,33 +52,9 @@
   easel.onresize = () => worldRenderer.updateViewSize();
 
   gl.canvas.onmousemove = e => {
-    // START WORKING
-    /*
-    const mousePos = vec3.fromValues(e.clientX, e.clientY, 0);
-
-    // The world position will always be between -1 and 1.
-    const worldPos = vec4.fromValues(
-      mousePos[0] / gl.canvas.clientWidth  *  2 - 1,
-      mousePos[1] / gl.canvas.clientHeight * -2 + 1,
-      0, 1);
-    
-    // Now use the view and projection matrices to figure out where the mouse
-    // is when z is at 0.
-    const viewMat = camera.getView();
-    const projMat = worldRenderer.getProjection();
-
-    worldPos[2] = vec3.transformMat4(vec3.create(), [0, 0, -20], projMat)[2];
-
-    const worldTrans = mat4.create();
-    mat4.invert(worldTrans,
-      mat4.multiply(worldTrans, projMat, viewMat));
-
-    vec4.transformMat4(worldPos, worldPos, worldTrans);
-
-    vec4.scale(worldPos, worldPos, 1.0 / worldPos[3]);
-    console.log(worldPos);
-    // END WORKING
-    */
+    const viewMat  = camera.getView();
+    const projMat  = worldRenderer.getProjection();
+    const viewProj = mat4.multiply(mat4.create(), projMat, viewMat);
 
     // The clipspace position will always be between -1 and 1.
     const clipPos = vec4.fromValues(
@@ -88,53 +62,17 @@
       e.clientY / gl.canvas.clientHeight * -2 + 1,
       0, 1);
     
-    // Now use the view and projection matrices to figure out the z coordinate,
-    // which too lies between -1 and 1.
-    const viewMat  = camera.getView();
-    const projMat  = worldRenderer.getProjection();
-    const viewProj = mat4.multiply(mat4.create(), projMat, viewMat);
+    // Now use the view and projection matrices to figure out the z coordinate.
+    // [0, 0, 0] is a point in world space.
+    const projectedPos = vec3.transformMat4(vec3.create(), [0, 0, 0], viewProj);
 
-    //console.log(vec3.transformMat4(vec3.create(), [0,0,0], mat4.multiply(mat4.create(),
-    //  projMat, viewMat)));
-    const viewPos = vec3.transformMat4(vec3.create(), [0, 0, 0], viewProj);
-    console.log('viewPos', viewPos);
+    // This is where z = 0 lies after projection.
+    clipPos[2] = projectedPos[2];
 
-    //worldPos[2] = vec3.transformMat4(vec3.create(), [0, 0, -20], projMat)[2];
-    //worldPos[2] = vec3.transformMat4(vec3.create(), viewPos, projMat)[2];
-    clipPos[2] = viewPos[2];
-
+    // Finally, invert the projection * view to find where the mouse is in
+    // world coordinates.
     const worldTrans = mat4.invert(mat4.create, viewProj);
-
-    vec4.transformMat4(clipPos, clipPos, worldTrans);
-    vec4.scale(clipPos, clipPos, 1.0 / clipPos[3]);
-    console.log(clipPos);
-
-    /*
-    //vec4.transformMat4(worldPos, worldPos, viewMat);
-    //vec4.transformMat4(worldPos, worldPos, projMat);
-    const worldTrans = mat4.create();
-    //mat4.transpose(worldTrans,
-    //  mat4.invert(worldTrans,
-    //    mat4.multiply(worldTrans, viewMat, projMat)));
-    
-    mat4.invert(worldTrans,
-      mat4.multiply(worldTrans, projMat, viewMat));
-    //mat4.invert(worldTrans, viewMat);
-
-    //worldPos[0] *= worldRenderer.zNear;
-    //worldPos[1] *= worldRenderer.zNear;
-    //worldPos[2] = worldRenderer.zFar;
-    //worldPos[3] = worldRenderer.zFar;
-
-    vec4.transformMat4(worldPos, worldPos, worldTrans);
-    //vec4.scale(worldPos, worldPos, 1.0 / worldPos[3]);
-    vec4.scale(worldPos, worldPos, worldPos[3]);
-
-    //worldPos[3] = 1.0 / worldPos[3];
-    //worldPos[0] *= worldPos[3];
-    //worldPos[1] *= worldPos[3];
-    //worldPos[2] *= worldPos[3];
-    */
+    const worldPos   = vec3.transformMat4(vec3.create(), clipPos, worldTrans);
   };
 
   // Start rendering.
