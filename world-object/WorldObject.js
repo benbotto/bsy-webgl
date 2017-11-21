@@ -26,13 +26,6 @@
     }
 
     /**
-     * Get the vertex colors.
-     */
-    getVertexColors() {
-      throw new Error('getVertexColors() not implemented.');
-    }
-
-    /**
      * Get the normals.
      */
     getVertexNormals() {
@@ -40,17 +33,24 @@
     }
 
     /**
+     * Get the vertex colors.
+     */
+    getVertexColors() {
+      return null;
+    }
+
+    /**
      * Get the material.
      */
     getMaterial() {
-      throw new Error('getMaterial() not implemented.');
+      return null;
     }
 
     /**
      * Get the texture coordinates.
      */
     getTextureCoords() {
-      throw new Error('getTextureCoords() not implemented.');
+      return null;
     }
 
     /**
