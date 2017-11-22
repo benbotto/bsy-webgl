@@ -2,5 +2,3 @@ It might be better to leave normal vec3 for vertices and such and let the
 renderer handle conversions.
 For the Trimesh to be useful as a floor there needs to be a getHeight(x, z)
 function.
-The particleEmitter.js has a helpful function to go from mouse coords to world
-coords.  That needs to be moved somewhere else.
