@@ -15,6 +15,8 @@
       this.indices       = [];
       this.textureCoords = [];
       this.vertexColors  = [];
+      this.velocities    = [];
+      this.lifetimes     = [];
     }
 
     /**
@@ -27,13 +29,20 @@
 
       this.vertices.push(...particle.getVertices());
       this.vertexNormals.push(...particle.getVertexNormals());
-      this.textureCoords.push(...particle.getTextureCoords());
+      this.velocities.push(...particle.getVelocity());
+      this.lifetimes.push(...particle.getLifetime());
 
       // Colors are optional
       const colors = particle.getVertexColors();
 
       if (colors)
         this.vertexColors.push(...colors);
+
+      // Texels are optional.
+      const texels = particle.getTextureCoords();
+
+      if (texels)
+        this.textureCoords.push(...texels);
 
       return super.addWorldObject(name, particle);
     }
@@ -64,6 +73,20 @@
      */
     getVertexColors() {
       return this.vertexColors;
+    }
+
+    /**
+     * Get the velocities.
+     */
+    getVelocities() {
+      return this.velocities;
+    }
+
+    /**
+     * Get the lifetimes.
+     */
+    getLifetimes() {
+      return this.lifetimes;
     }
 
     /**
