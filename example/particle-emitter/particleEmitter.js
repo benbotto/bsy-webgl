@@ -4,7 +4,7 @@
   const easel  = new bsy.Easel();
   const gl     = easel.getContext();
 
-  const NUM_PARTS = 3000;
+  const NUM_PARTS = 5000;
 
   // Compile and link the vertix and fragment shaders.
   const compiler   = new bsy.Compiler();
@@ -38,14 +38,27 @@
   world.addWorldObject('emitter', emitter);
 
   // Create the renderers.
-  const worldRenderer   = new bsy.WorldRenderer(gl, world)
-    .addRenderer(new bsy.ParticleEmitterRenderer(gl, emitter, peProgram));
+  const worldRenderer = new bsy.WorldRenderer(gl, world)
+  const partRenderer  = new bsy.ParticleEmitterRenderer(gl, emitter, peProgram);
+
+  worldRenderer.addRenderer(partRenderer);
  
   // Position the camera.
   camera.moveBackward(150);
 
   easel.onDraw = (gl, timeDeltaMS) => {
     worldRenderer.render(gl, timeDeltaMS);
+  };
+
+  // On click toggle gravity.
+  gl.canvas.onclick = (e) => {
+    partRenderer.toggleGravity();
+
+    // Convert the mouse coordinates to world space.
+    const clickPos = bsy.MatUtils.mouseCoordsToWorldCoordsAtDepth(
+      worldRenderer, e.clientX, e.clientY, 0);
+
+    mat4.fromTranslation(emitter.getTransform(), clickPos);
   };
 
   // Update the canvas size with the window size is changed.

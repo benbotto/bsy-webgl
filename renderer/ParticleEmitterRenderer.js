@@ -10,11 +10,20 @@
       super(gl, emitter, program, buffMgr);
 
       this.startTime      = null;
+      this.useGravity     = false;
       this.velocityBuffer = buffMgr.fillNewFloatArrayBuffer(gl, emitter.getVelocities());
       this.lifetimeBuffer = buffMgr.fillNewFloatArrayBuffer(gl, emitter.getLifetimes());
       this.velocityLoc    = gl.getAttribLocation(program,  'aVelocity');
       this.lifetimeLoc    = gl.getAttribLocation(program,  'aLifetime');
       this.elapsedLoc     = gl.getUniformLocation(program, 'uElapsed');
+      this.useGravityLoc  = gl.getUniformLocation(program, 'uUseGravity');
+    }
+
+    /**
+     * Toggle gravity.
+     */
+    toggleGravity() {
+      this.useGravity = !this.useGravity;
     }
 
     /**
@@ -42,6 +51,9 @@
       const elapsed = (time.getTime() - this.startTime.getTime()) / 1000;
 
       gl.uniform1f(this.elapsedLoc, elapsed);
+
+      // Gravity flag.
+      gl.uniform1f(this.useGravityLoc, this.useGravity);
 
       // Particle lifetime.
       gl.bindBuffer(gl.ARRAY_BUFFER, this.lifetimeBuffer);
